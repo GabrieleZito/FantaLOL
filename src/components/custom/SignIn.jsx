@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { FormDescription } from "../ui/form";
+import API from "../../API.js";
 
 const signUpSchema = z.object({
     email: z.string().email(),
@@ -19,13 +19,14 @@ export function SignIn() {
         formState: { errors, isSubmitting },
         reset,
         getValues,
-        setError
+        setError,
     } = useForm({
         resolver: zodResolver(signUpSchema),
     });
 
     const onSubmit = async (data) => {
         console.log("SUBMIT");
+        API.login();
     };
 
     return (
