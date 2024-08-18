@@ -4,14 +4,17 @@ export function NavBar(props) {
     return (
         <>
             <header className="text-gray-400 bg-gray-900 body-font">
-                <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-                    <nav className="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto">
-                        <a className="mr-5 hover:text-white cursor-pointer">
+                <div className="container fixed flex flex-col flex-wrap items-center p-5 mx-auto bg-gray-900 md:flex-row">
+                    <nav className="flex flex-wrap items-center text-base lg:w-2/5 md:ml-auto">
+                        <a className="mr-5 cursor-pointer hover:text-white">
                             Rules
                         </a>
                         <a className="mr-5 hover:text-white">Contact Us</a>
                     </nav>
-                    <a className="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-white lg:items-center lg:justify-center mb-4 md:mb-0">
+                    <NavLink
+                        to="/"
+                        className="flex items-center order-first mb-4 font-medium text-white lg:order-none lg:w-1/5 title-font lg:items-center lg:justify-center md:mb-0"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -19,7 +22,7 @@ export function NavBar(props) {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth="2"
-                            className="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                            className="w-10 h-10 p-2 text-white bg-indigo-500 rounded-full"
                             viewBox="0 0 24 24"
                         >
                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
@@ -27,10 +30,10 @@ export function NavBar(props) {
                         <span className="ml-3 text-xl xl:block lg:hidden">
                             LOGO
                         </span>
-                    </a>
-                    <div className="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+                    </NavLink>
+                    <div className="inline-flex ml-5 lg:w-2/5 lg:justify-end lg:ml-0">
                         <NavLink to="/sign-in">
-                            <button className="inline-flex items-center bg-red-700 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
+                            <button className="inline-flex items-center px-3 py-1 mt-4 text-base text-white bg-red-700 border-0 rounded focus:outline-none hover:bg-gray-700 md:mt-0">
                                 Sign In
                                 <svg
                                     fill="none"
