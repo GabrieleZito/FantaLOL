@@ -4,7 +4,7 @@ export function NavBar(props) {
     return (
         <>
             <header className="text-gray-400 bg-gray-900 body-font">
-                <div className="container fixed flex flex-col flex-wrap items-center p-5 mx-auto bg-gray-900 md:flex-row">
+                <div className="container flex flex-col flex-wrap items-center max-w-full p-5 mx-auto bg-gray-900 md:flex-row">
                     <nav className="flex flex-wrap items-center text-base lg:w-2/5 md:ml-auto">
                         <a className="mr-5 cursor-pointer hover:text-white">
                             Rules

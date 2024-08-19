@@ -6,7 +6,7 @@ const register = async (user) => {
     try {
         const { data } = await axios.post(URL + "/auth/register", user);
         console.log(data);
-        return { msg: "User registered" };
+        return { msg: "User registered" , ...data};
     } catch (e) {
         const error = e.response.data.err;
         switch (error) {

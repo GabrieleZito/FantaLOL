@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import API from "../../API.js";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const signUpSchema = z
     .object({
@@ -19,6 +20,8 @@ const signUpSchema = z
     });
 
 export function SignIn() {
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -37,18 +40,21 @@ export function SignIn() {
             username: getValues("username"),
             password: getValues("password"),
         });
-        console.log(result);
+        //console.log(result);
         if (result.err) {
             console.log(result.field);
             setError(result.field, { message: result.err });
         } else {
-            alert("Utente registrato");
+            //alert("Utente registrato");
+            console.log(result);
+
+            navigate("/dashboard");
         }
     };
 
     return (
         <>
-            <div className="container flex items-center justify-center h-screen ">
+            <div className="container flex items-center justify-center h-auto py-28">
                 <div className="w-96">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
@@ -118,7 +124,14 @@ export function SignIn() {
                                 ""
                             )}
                         </div>
-
+                        <div className="container flex justify-between px-0">
+                            <NavLink to="/reset-password">
+                                <p className="text-sm">Forgot Password</p>
+                            </NavLink>
+                            <p className="text-sm">
+                                Already have an account? Login
+                            </p>
+                        </div>
                         <Button disabled={isSubmitting} className="mt-20">
                             Submit
                         </Button>
