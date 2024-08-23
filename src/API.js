@@ -6,7 +6,7 @@ const register = async (user) => {
     try {
         const { data } = await axios.post(URL + "/auth/register", user);
         console.log(data);
-        return { msg: "User registered" , ...data};
+        return { msg: "User registered", ...data };
     } catch (e) {
         const error = e.response.data.err;
         switch (error) {
@@ -18,6 +18,19 @@ const register = async (user) => {
     }
 };
 
-const API = { register };
+const login = async (login) => {
+    try {
+        const { data } = await axios.post(URL + "/auth/login", login);
+        console.log(data);
+
+        return { msg: "Login successfull", ...data };
+    } catch (e) {
+        const err = e.response.data;
+        //console.log(err);
+        return err;
+    }
+};
+
+const API = { register, login };
 
 export default API;

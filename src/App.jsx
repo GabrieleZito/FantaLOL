@@ -7,6 +7,7 @@ import { SignIn } from "./components/custom/SignIn";
 import { NotFound } from "./components/custom/NotFound";
 import { Dashboard } from "./components/custom/Dashboard";
 import { PasswordReset } from "./components/custom/PasswordReset";
+import { Login } from "./components/custom/Login";
 
 function App() {
     const [count, setCount] = useState(0);
@@ -24,6 +25,7 @@ function App() {
                                 path="reset-password"
                                 element={<PasswordReset />}
                             />
+                            <Route path="login" element={<Login/>} />
                             <Route path="*" element={<NotFound />} />
                         </Route>
                     </Routes>
