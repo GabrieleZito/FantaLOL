@@ -30,7 +30,12 @@ export function Login(props) {
             password: getValues("password"),
         });
         console.log(result);
-        setError("password", {message: result.err});
+        if (result.msg) {
+            props.setUser(result);
+            navigate("/dashboard");
+        } else {
+            setError("password", { message: result.err });
+        }
     };
 
     return (

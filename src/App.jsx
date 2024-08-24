@@ -10,24 +10,37 @@ import { PasswordReset } from "./components/custom/PasswordReset";
 import { Login } from "./components/custom/Login";
 
 function App() {
-    const [count, setCount] = useState(0);
+    const [user, setUser] = useState(null);
 
     return (
         <>
             <div className="">
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<NavBar />}>
-                            <Route index element={<Home />} />
-                            <Route path="sign-in" element={<SignIn />} />
-                            <Route path="dashboard" element={<Dashboard />} />
+                        <Route
+                            path="/"
+                            element={<NavBar user={user} setUser={setUser} />}
+                        >
+                            <Route index element={<Home user={user} />} />
+                            <Route
+                                path="sign-in"
+                                element={<SignIn setUser={setUser} />}
+                            />
+
                             <Route
                                 path="reset-password"
                                 element={<PasswordReset />}
                             />
-                            <Route path="login" element={<Login/>} />
+                            <Route
+                                path="login"
+                                element={<Login setUser={setUser} />}
+                            />
                             <Route path="*" element={<NotFound />} />
                         </Route>
+                        <Route
+                            path="dashboard"
+                            element={<Dashboard user={user} />}
+                        />
                     </Routes>
                 </BrowserRouter>
             </div>

@@ -31,6 +31,15 @@ const login = async (login) => {
     }
 };
 
-const API = { register, login };
+const prova = async () => {
+    try {
+        const data = await axios.get(URL + "/test");
+        console.log(data);
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+const API = { register, login, prova };
 
 export default API;
