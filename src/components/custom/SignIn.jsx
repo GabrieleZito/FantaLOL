@@ -125,9 +125,6 @@ export function SignIn() {
                             )}
                         </div>
                         <div className="container flex justify-between px-0">
-                            {/* <NavLink to="/reset-password">
-                                <p className="text-sm">Forgot Password</p>
-                            </NavLink> */}
                             <NavLink to="/login">
                                 <p className="text-sm">
                                     Already have an account? Login
@@ -135,7 +132,7 @@ export function SignIn() {
                             </NavLink>
                         </div>
                         <Button disabled={isSubmitting} className="">
-                            Submit
+                            Register
                         </Button>
                     </form>
                 </div>

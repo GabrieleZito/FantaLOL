@@ -27,19 +27,40 @@ const login = async (login) => {
     } catch (e) {
         const err = e.response.data;
         //console.log(err);
-        return err;
+        throw new Error("Failed to Log In");
     }
 };
 
-const prova = async () => {
+const currentTournaments = async () => {
     try {
-        const data = await axios.get(URL + "/test");
+        const { data } = await axios.get(URL + "/league/tournaments/currentTournaments");
         console.log(data);
+        return data;
     } catch (e) {
-        console.log(e);
+        throw new Error("Failed to fetch current Tournaments");
     }
 };
 
-const API = { register, login, prova };
+const nextTournaments = async () => {
+    try {
+        const { data } = await axios.get(URL + "/league/tournaments/nextTournaments");
+        console.log(data);
+        return data;
+    } catch (e) {
+        throw new Error("Failed to fetch next Tournaments");
+    }
+};
+
+const tournamentFromId = async (id) => {
+    try {
+        const { data } = await axios.get(URL + "/league/tournaments/" + id);
+        console.log(data);
+        return data;
+    } catch (e) {
+        throw new Error("Failed to fetch tournament");
+    }
+};
+
+const API = { register, login, currentTournaments, nextTournaments, tournamentFromId };
 
 export default API;
