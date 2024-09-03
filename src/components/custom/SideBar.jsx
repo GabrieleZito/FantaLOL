@@ -9,64 +9,110 @@ import {
     hamburgerMenu,
 } from "@/assets/svgConstants";
 import profileIcon from "@/assets/profileIcon.png";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
+import { useMutation } from "@tanstack/react-query";
+import API from "@/API";
 
 export function Sidebar(props) {
-    return (
-        <>
-            <button
-                data-drawer-target="logo-sidebar"
-                data-drawer-toggle="logo-sidebar"
-                aria-controls="logo-sidebar"
-                type="button"
-                className="inline-flex items-center p-2 mt-2 text-sm text-gray-500 rounded-lg ms-3 sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            >
-                <span className="sr-only">Open sidebar</span>
-                {hamburgerMenu}
-            </button>
-            <aside
-                id="logo-sidebar"
-                className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
-                aria-label="Sidebar"
-            >
-                <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-                    <div className="flex items-center gap-4 p-2">
-                        <img
-                            className="w-10 h-10 rounded-full"
-                            src={profileIcon}
-                            alt=""
-                        />
-                        <div className="font-medium dark:text-white">
-                            <div>Jese Leos</div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">
-                                Joined in August 2014
+    const navigate = useNavigate();
+
+    const logoutRequest = useMutation({
+        mutationFn: API.logout,
+        mutationKey: ["logout"],
+        onSuccess: () => {
+            props.setUser(null);
+            navigate("/");
+        },
+        onError: () => {
+            alert("Oops something went wrong");
+        },
+    });
+
+    const logout = () => {
+        logoutRequest.mutate();
+    };
+
+    if (props.user) {
+        return (
+            <>
+                <button
+                    data-drawer-target="logo-sidebar"
+                    data-drawer-toggle="logo-sidebar"
+                    aria-controls="logo-sidebar"
+                    type="button"
+                    className="inline-flex items-center p-2 mt-2 text-sm text-gray-500 rounded-lg ms-3 sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                >
+                    <span className="sr-only">Open sidebar</span>
+                    {hamburgerMenu}
+                </button>
+                <aside
+                    id="logo-sidebar"
+                    className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+                    aria-label="Sidebar"
+                >
+                    <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+                        <div className="flex items-center gap-4 p-2">
+                            <img
+                                className="w-10 h-10 rounded-full"
+                                src={profileIcon}
+                                alt=""
+                            />
+                            <div className="font-medium dark:text-white">
+                                <div>Jese Leos</div>
+                                <div className="text-sm text-gray-500 dark:text-gray-400">
+                                    Joined in August 2014
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <ul className="space-y-2 font-medium">
-                        <MenuItem
-                            text="Dashboard"
-                            icon={dashboard}
-                            link="/dashboard"
-                        />
-                        <MenuItem
-                            text="Kanban"
-                            icon={kanban}
-                            pill="Pro"
-                            type="info"
-                        />
-                        <MenuItem text="Inbox" icon={inbox} pill="3" />
-                        <MenuItem text="Friends" icon={users} />
-                        <MenuItem text="Products" icon={products} />
-                        <MenuItem text="Log Out" icon={signIn} />
-                        
-                    </ul>
-                </div>
-            </aside>
-            <Outlet />
-        </>
-    );
+                        <ul className="space-y-2 font-medium">
+                            <MenuItem
+                                text="Dashboard"
+                                icon={dashboard}
+                                link="/dashboard"
+                            />
+                            <MenuItem
+                                text="Kanban"
+                                icon={kanban}
+                                pill="Pro"
+                                type="info"
+                            />
+                            <MenuItem text="Inbox" icon={inbox} pill="3" />
+                            <MenuItem
+                                text="Friends"
+                                icon={users}
+                                link="/dashboard/friends"
+                            />
+                            <MenuItem text="Products" icon={products} />
+
+                            <li>
+                                <NavLink
+                                    onClick={logout}
+                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    {signIn}
+                                    <span className="flex-1 ms-3 whitespace-nowrap">
+                                        Log Out
+                                    </span>
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+                <Outlet />
+            </>
+        );
+    } else {
+        return (
+            <div className="container flex flex-col items-center justify-center h-screen">
+                You must be logged in to access this page
+                <NavLink to="/login">
+                    <Button>Log in</Button>
+                </NavLink>
+            </div>
+        );
+    }
 }
 
 function MenuItem(props) {

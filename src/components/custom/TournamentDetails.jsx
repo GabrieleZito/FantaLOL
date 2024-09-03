@@ -6,13 +6,9 @@ export function TournamentDetails(props) {
     const { tourId } = useParams();
 
     const { data, isLoading, isSuccess } = useQuery({
-        queryKey: ["id"],
+        queryKey: ["tournament", tourId],
         queryFn: () => API.tournamentFromId(tourId),
     });
-
-    if (isSuccess) {
-        console.log(data);
-    }
 
     return (
         <>
@@ -34,7 +30,7 @@ export function TournamentDetails(props) {
                                     Tier: <p>{data.tier.toUpperCase()}</p>
                                 </div>
                             </div>
-                            <div>{data.matches.map( m=> <div>{m.name}</div>)}</div>
+                            <div>{data.matches.map( (m, i)=> <div key={i}>{m.name}</div>)}</div>
                         </>
                     ) : (
                         ""

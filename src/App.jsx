@@ -11,6 +11,8 @@ import { Login } from "./components/custom/Login";
 import { Sidebar } from "./components/custom/SideBar";
 import { TournamentDetails } from "./components/custom/TournamentDetails";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Friends } from "./components/custom/Friends";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient()
 
@@ -29,12 +31,14 @@ function App() {
                         <Route path="login" element={<Login setUser={setUser} />} />
                         <Route path="*" element={<NotFound />} />
                     </Route>
-                    <Route path="/dashboard" element={<Sidebar user={user} />}>
-                        <Route index element={<Dashboard />} />
-                        <Route path="tournaments/:tourId" element={<TournamentDetails/>} />
+                    <Route path="/dashboard" element={<Sidebar user={user} setUser={setUser}/>}>
+                        <Route index element={<Dashboard user={user}/>} />
+                        <Route path="tournaments/:tourId" element={<TournamentDetails user={user}/>} />
+                        <Route path="friends" element={<Friends user={user}/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>
+            <ReactQueryDevtools/>
         </QueryClientProvider>
         </>
     );

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import API from "../../API.js";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 const signUpSchema = z
     .object({
@@ -19,7 +20,7 @@ const signUpSchema = z
         path: ["repassword"],
     });
 
-export function SignIn() {
+export function SignIn(props) {
     const navigate = useNavigate();
 
     const {
@@ -33,23 +34,37 @@ export function SignIn() {
         resolver: zodResolver(signUpSchema),
     });
 
-    const onSubmit = async (data) => {
-        console.log("SUBMIT");
-        const result = await API.register({
+    const registerUser = useMutation({
+        mutationFn: API.register,
+        mutationKey: ["register"],
+        onSuccess: (user) => {
+            console.log(user);
+            props.setUser({
+                bio: "",
+                birthDay: "",
+                email: user.email,
+                firstName: "",
+                lastName: "",
+                profilePicture: "",
+                id: user.id,
+                username: user.username,
+            });
+            navigate("/dashboard");
+        },
+        onError: (err) => {
+            const error = err.response.data.err;
+            console.log(error);
+            setError(error.split(" ")[0], { message: error });
+        },
+        retry: false,
+    });
+
+    const onSubmit = async () => {
+        registerUser.mutate({
             email: getValues("email"),
             username: getValues("username"),
             password: getValues("password"),
         });
-        //console.log(result);
-        if (result.err) {
-            console.log(result.field);
-            setError(result.field, { message: result.err });
-        } else {
-            //alert("Utente registrato");
-            console.log(result);
-
-            navigate("/dashboard");
-        }
     };
 
     return (

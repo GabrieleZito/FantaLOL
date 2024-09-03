@@ -5,41 +5,32 @@ import API from "../../API.js";
 import { Card } from "./Card";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { Sidebar } from "./SideBar";
+import { useQuery } from "@tanstack/react-query";
 
 export function Dashboard(props) {
-    const [currentTournaments, setcurrentTournaments] = useState(null);
-    const [nextTournaments, setNextTournaments] = useState(null);
-    const [loading, setLoading] = useState(true);
+    
+    const currentT = useQuery({
+        queryFn: API.currentTournaments,
+        queryKey: ["current"]
+    })
 
-    useEffect(() => {
-        try {
-            Promise.all([API.currentTournaments(), API.nextTournaments()]).then(
-                (data) => {
-                    setcurrentTournaments(data[0]);
-                    setNextTournaments(data[1]);
-                    console.log(data);
-                    setLoading(false);
-                }
-            );
-        } catch (e) {
-            console.log(e);
-        }
-    }, []);
+    const nextT = useQuery({
+        queryFn: API.nextTournaments,
+        queryKey: ["next"],
+    })
 
     return (
         <>
             <div className="p-4 sm:ml-64">
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-                    {loading ? (
-                        ""
-                    ) : (
+                    {currentT.status == "loading" ? (""):(
                         <>
                             Current:
                             <div className="flex items-center justify-center mb-4 rounded bg-gray-50 dark:bg-gray-800">
                                 <ScrollArea className="w-auto rounded-md bottom-11rder whitespace-nowrap">
                                     <div className="flex p-4 space-x-4 w-max">
-                                        {currentTournaments
-                                            ? currentTournaments.map(
+                                        {currentT.data
+                                            ? currentT.data.map(
                                                   (element, i) => {
                                                       return (
                                                           <Card
@@ -63,12 +54,16 @@ export function Dashboard(props) {
                                     <ScrollBar orientation="horizontal" />
                                 </ScrollArea>
                             </div>
+                        </>
+                    )}{nextT.status == "loading" ? (""):(
+                        <>
+                            
                             Next:
                             <div className="flex items-center justify-center mb-4 rounded bg-gray-50 dark:bg-gray-800">
                                 <ScrollArea className="w-auto rounded-md bottom-11rder whitespace-nowrap">
                                     <div className="flex p-4 space-x-4 w-max">
-                                        {nextTournaments
-                                            ? nextTournaments.map(
+                                        {nextT.data
+                                            ? nextT.data.map(
                                                   (element, i) => {
                                                       return (
                                                           <Card
@@ -94,6 +89,8 @@ export function Dashboard(props) {
                             </div>
                         </>
                     )}
+                        
+                    
 
                     <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
                         <p className="text-2xl text-gray-400 dark:text-gray-500"></p>

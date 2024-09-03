@@ -7,6 +7,7 @@ import { z } from "zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import API from "../../API.js";
+import { useMutation } from "@tanstack/react-query";
 
 const loginSchema = z.object({
     username: z.string().min(1, { message: "Username is required" }),
@@ -24,18 +25,27 @@ export function Login(props) {
         setError,
     } = useForm({ resolver: zodResolver(loginSchema) });
 
-    const onSubmit = async (data) => {
-        const result = await API.login({
+    const login = useMutation({
+        mutationKey: ["login"],
+        retry: false,
+        mutationFn: API.login,
+        onSuccess: (user) => {
+            console.log(user);
+            props.setUser(user)
+            navigate("/dashboard")
+        },
+        onError: (err) => {
+            const error = err.response.data.err
+            console.log(error);
+            setError("password", {message: error})
+        },
+    });
+
+    const onSubmit = async () => {
+        login.mutate({
             username: getValues("username"),
-            password: getValues("password"),
-        });
-        console.log(result);
-        if (result.msg) {
-            props.setUser(result);
-            navigate("/dashboard");
-        } else {
-            setError("password", { message: result.err });
-        }
+            password: getValues("password")
+        })
     };
 
     return (

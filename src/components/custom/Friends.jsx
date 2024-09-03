@@ -1,0 +1,72 @@
+import API from "@/API";
+import { lens } from "@/assets/svgConstants";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+
+export function Friends(props) {
+    const [search, setSearch] = useState("");
+
+    const addFriend = useMutation({
+        mutationFn: API.sendRequest,
+        mutationKey: ["friendRequest", search],
+        onSuccess: (x) => {
+            console.log(x);
+        },
+        onError: (err) => {
+            console.log(err);
+        },
+    });
+
+    const submit = (e) => {
+        e.preventDefault();
+        addFriend.mutate(search);
+    };
+
+    return (
+        <>
+            <div className="p-4 sm:ml-64">
+                <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
+                    <form onSubmit={submit}>
+                        <label
+                            htmlFor="search"
+                            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+                        >
+                            Search
+                        </label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
+                                <svg
+                                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 20 20"
+                                >
+                                    {lens}
+                                </svg>
+                            </div>
+                            <input
+                                type="search"
+                                id="search"
+                                className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Username"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                required
+                            />
+                            <button
+                                type="submit"
+                                className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                Send Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div className="p-4 sm:ml-64">
+                <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 "></div>
+            </div>
+        </>
+    );
+}
