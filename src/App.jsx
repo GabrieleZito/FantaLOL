@@ -13,6 +13,7 @@ import { TournamentDetails } from "./components/custom/TournamentDetails";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Friends } from "./components/custom/Friends";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Inbox } from "./components/custom/Inbox";
 
 const queryClient = new QueryClient()
 
@@ -35,6 +36,7 @@ function App() {
                         <Route index element={<Dashboard user={user}/>} />
                         <Route path="tournaments/:tourId" element={<TournamentDetails user={user}/>} />
                         <Route path="friends" element={<Friends user={user}/>}/>
+                        <Route path="inbox" element={<Inbox/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

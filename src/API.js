@@ -41,7 +41,17 @@ const sendRequest = (search) => {
 };
 
 const logout = () => {
-    return axiosConf.delete(URL + "/users/logout").then((res) => res.data);
+    return axiosConf.delete(URL + "/auth/logout").then((res) => res.data);
+};
+
+const checkNotifications = () => {
+    return axiosConf.get(URL + "/users/notifications").then((res) => res.data);
+};
+
+const getFriendRequests = () => {
+    return axiosConf
+        .get(URL + "/users/friend-requests")
+        .then((res) => res.data);
 };
 
 const API = {
@@ -51,6 +61,9 @@ const API = {
     nextTournaments,
     tournamentFromId,
     sendRequest,
+    logout,
+    checkNotifications,
+    getFriendRequests,
 };
 
 export default API;

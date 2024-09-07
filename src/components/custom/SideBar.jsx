@@ -11,11 +11,13 @@ import {
 import profileIcon from "@/assets/profileIcon.png";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import API from "@/API";
+import { useEffect, useState } from "react";
 
 export function Sidebar(props) {
     const navigate = useNavigate();
+    const [notifs, setNotifs] = useState(0);
 
     const logoutRequest = useMutation({
         mutationFn: API.logout,
@@ -27,6 +29,12 @@ export function Sidebar(props) {
         onError: () => {
             alert("Oops something went wrong");
         },
+    });
+
+    const getnotifications = useQuery({
+        queryKey: ["notifications"],
+        queryFn: API.checkNotifications,
+        //refetchInterval: 5000,
     });
 
     const logout = () => {
@@ -59,7 +67,7 @@ export function Sidebar(props) {
                                 alt=""
                             />
                             <div className="font-medium dark:text-white">
-                                <div>Jese Leos</div>
+                                <div>{props.user.username}</div>
                                 <div className="text-sm text-gray-500 dark:text-gray-400">
                                     Joined in August 2014
                                 </div>
@@ -78,7 +86,12 @@ export function Sidebar(props) {
                                 pill="Pro"
                                 type="info"
                             />
-                            <MenuItem text="Inbox" icon={inbox} pill="3" />
+                            <MenuItem
+                                text="Inbox"
+                                icon={inbox}
+                                pill={getnotifications.data}
+                                link="/dashboard/inbox"
+                            />
                             <MenuItem
                                 text="Friends"
                                 icon={users}

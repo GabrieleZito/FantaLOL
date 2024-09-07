@@ -1,19 +1,31 @@
 import API from "@/API";
-import { lens } from "@/assets/svgConstants";
+import {
+    close,
+    confirmationGreen,
+    errorRed,
+    lens,
+} from "@/assets/svgConstants";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
 export function Friends(props) {
     const [search, setSearch] = useState("");
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState("");
 
     const addFriend = useMutation({
         mutationFn: API.sendRequest,
         mutationKey: ["friendRequest", search],
-        onSuccess: (x) => {
-            console.log(x);
+        onSuccess: (data) => {
+            const msg = data.msg;
+            console.log(msg);
+            setShowSuccess(true);
+            setShowError("");
         },
         onError: (err) => {
-            console.log(err);
+            const error = err.response.data.err;
+            console.log(error);
+            setShowError(error);
         },
     });
 
@@ -66,6 +78,52 @@ export function Friends(props) {
             </div>
             <div className="p-4 sm:ml-64">
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 "></div>
+            </div>
+            {showSuccess ? (
+                <Toast
+                    text="Request Sent"
+                    icon={confirmationGreen}
+                    setShowError={setShowError}
+                    setShowSuccess={setShowSuccess}
+                />
+            ) : (
+                ""
+            )}
+            {showError ? (
+                <Toast
+                    text={showError}
+                    icon={errorRed}
+                    setShowError={setShowError}
+                    setShowSuccess={setShowSuccess}
+                />
+            ) : (
+                ""
+            )}
+        </>
+    );
+}
+
+function Toast(props) {
+    return (
+        <>
+            <div
+                id="toast-success"
+                className="fixed flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow bottom-5 right-5 dark:text-gray-400 dark:bg-gray-800"
+            >
+                {props.icon}
+                <div className="text-sm font-normal ms-3">{props.text}</div>
+                <button
+                    onClick={() => {
+                        props.setShowError("");
+                        props.setShowSuccess(false);
+                    }}
+                    type="button"
+                    className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                    aria-label="Close"
+                >
+                    <span className="sr-only">Close</span>
+                    {close}
+                </button>
             </div>
         </>
     );
