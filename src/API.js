@@ -54,6 +54,16 @@ const getFriendRequests = () => {
         .then((res) => res.data);
 };
 
+const acceptFriend = (id) => {
+    return axiosConf
+        .post(URL + "/users/acceptFriend", id)
+        .then((res) => res.data);
+};
+
+const getFriends = () => {
+    return axiosConf.get(URL + "/users/friends").then((res) => res.data);
+};
+
 const API = {
     register,
     login,
@@ -64,6 +74,8 @@ const API = {
     logout,
     checkNotifications,
     getFriendRequests,
+    acceptFriend,
+    getFriends,
 };
 
 export default API;

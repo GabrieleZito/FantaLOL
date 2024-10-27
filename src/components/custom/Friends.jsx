@@ -5,10 +5,13 @@ import {
     errorRed,
     lens,
 } from "@/assets/svgConstants";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
 
 export function Friends(props) {
+    const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState("");
@@ -23,11 +26,20 @@ export function Friends(props) {
             setShowError("");
         },
         onError: (err) => {
+            if (err.response.status == 401) {
+                navigate("/login");
+            }
             const error = err.response.data.err;
             console.log(error);
             setShowError(error);
         },
     });
+
+    const friends = useQuery({
+        queryKey: ["friends"],
+        queryFn: API.getFriends,
+    });
+    console.log(friends.data);
 
     const submit = (e) => {
         e.preventDefault();
@@ -77,7 +89,28 @@ export function Friends(props) {
                 </div>
             </div>
             <div className="p-4 sm:ml-64">
-                <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 "></div>
+                <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
+                    {console.log(friends.isSuccess)}
+                    {friends.isSuccess
+                        ? friends.data.map((x) => (
+                              <div
+                                  className="flex p-2 my-1 rounded-lg shadow-lg"
+                                  key={x.id}
+                              >
+                                  <div className="align-middle">
+                                      <div>
+                                          <img
+                                              src={x.profilePicture}
+                                              className="h-14"
+                                          />
+                                      </div>
+                                      <div>{x.UserAuth.username}</div>
+                                  </div>
+                                  
+                              </div>
+                          ))
+                        : ""}
+                </div>
             </div>
             {showSuccess ? (
                 <Toast

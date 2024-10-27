@@ -1,26 +1,71 @@
 import API from "@/API";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Button } from "../ui/button";
 
 export function Inbox(props) {
+    const queryClient = useQueryClient();
 
     const friendReq = useQuery({
         queryKey: ["friendReq"],
-        queryFn: API.getFriendRequests
-    })
-    
-    if (friendReq.isSuccess) {
-        console.log(friendReq.data);
-        
-    }
+        queryFn: API.getFriendRequests,
+    });
+
+    const acceptFriend = useMutation({
+        mutationKey: ["acceptFriend"],
+        mutationFn: API.acceptFriend,
+        onSuccess: (data) => {
+            console.log(data);
+            queryClient.invalidateQueries({ queryKey: ["friendReq"] });
+        },
+        onError: (err) => {
+            if (err.response.status == 401) {
+                navigate("/login");
+            }
+            const error = err.response.data.err;
+            console.log(error);
+        },
+    });
+
+    const accetta = (id) => {
+        console.log(id);
+        acceptFriend.mutate({ id: id });
+    };
+
     return (
         <div className="p-4 sm:ml-64">
             <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                 <div className="text-2xl font-medium text-slate-500">
                     Friend Requests
                 </div>
-                {/* {friendReq.isSuccess ? (
-                    friendReq.data.map(x => <div>{x}</div>)
-                ) : ""} */}
+                <div className="mt-12">
+                    {friendReq.isSuccess
+                        ? friendReq.data.map((x) => (
+                              <div
+                                  className="flex p-2 my-1 rounded-lg shadow-lg"
+                                  key={x.id}
+                              >
+                                  <div className="align-middle">
+                                      <div>
+                                          <img
+                                              src={x.profilePicture}
+                                              className="h-14"
+                                          />
+                                      </div>
+                                      <div>{x.username}</div>
+                                  </div>
+                                  <div className="my-auto h-fit">
+                                      <Button
+                                          className=""
+                                          onClick={() => accetta(x.id)}
+                                      >
+                                          Accept
+                                      </Button>
+                                      <Button className="">Decline</Button>
+                                  </div>
+                              </div>
+                          ))
+                        : ""}
+                </div>
             </div>
         </div>
     );

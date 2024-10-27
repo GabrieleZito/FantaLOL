@@ -31,21 +31,21 @@ export function Login(props) {
         mutationFn: API.login,
         onSuccess: (user) => {
             console.log(user);
-            props.setUser(user)
-            navigate("/dashboard")
+            props.setUser(user);
+            navigate("/dashboard");
         },
         onError: (err) => {
-            const error = err.response.data.err
+            const error = err.response.data.err;
             console.log(error);
-            setError("password", {message: error})
+            setError("password", { message: error });
         },
     });
 
     const onSubmit = async () => {
         login.mutate({
             username: getValues("username"),
-            password: getValues("password")
-        })
+            password: getValues("password"),
+        });
     };
 
     return (
