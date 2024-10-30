@@ -64,6 +64,22 @@ const getFriends = () => {
     return axiosConf.get(URL + "/users/friends").then((res) => res.data);
 };
 
+const submitLeader = (options) => {
+    return axiosConf
+        .post(URL + "/leaderboards/new", options)
+        .then((res) => res.data);
+};
+
+const getLeaderboard = (id) => {
+    return axiosConf.get(URL + `/leaderboards/${id}`).then((res) => res.data);
+};
+
+const getUserLeaderboard = (userId) => {
+    return axiosConf
+        .get(URL + "/leaderboards/user/" + userId)
+        .then((res) => res.data);
+};
+
 const API = {
     register,
     login,
@@ -76,6 +92,9 @@ const API = {
     getFriendRequests,
     acceptFriend,
     getFriends,
+    submitLeader,
+    getLeaderboard,
+    getUserLeaderboard
 };
 
 export default API;

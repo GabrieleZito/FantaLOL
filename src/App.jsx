@@ -15,6 +15,8 @@ import { Friends } from "./components/custom/Friends";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Inbox } from "./components/custom/Inbox";
 import { Profile } from "./components/custom/Profile";
+import { Leaderboards } from "./components/custom/Leaderboards";
+import { LeaderboardDetails } from "./components/custom/LeaderboardDetails";
 
 const queryClient = new QueryClient()
 
@@ -39,6 +41,8 @@ function App() {
                         <Route path="friends" element={<Friends user={user}/>}/>
                         <Route path="inbox" element={<Inbox/>}/>
                         <Route path="profile" element={<Profile user={user} />} />
+                        <Route path="leaderboards" element={<Leaderboards user={user}/>} />
+                        <Route path="leaderboards/:leadId" element={<LeaderboardDetails/>} />
                     </Route>
                 </Routes>
             </BrowserRouter>

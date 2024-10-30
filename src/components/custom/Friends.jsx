@@ -91,7 +91,7 @@ export function Friends(props) {
             <div className="p-4 sm:ml-64">
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
                     {console.log(friends.isSuccess)}
-                    {friends.isSuccess
+                    {(friends.isSuccess && friends.data != null && friends.data.length > 0)
                         ? friends.data.map((x) => (
                               <div
                                   className="flex p-2 my-1 rounded-lg shadow-lg"

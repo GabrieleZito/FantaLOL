@@ -7,12 +7,14 @@ import {
     signUp,
     users,
     hamburgerMenu,
+    leaderboard,
 } from "@/assets/svgConstants";
 import profileIcon from "@/assets/profileIcon.png";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import API from "@/API";
+import {ChartNoAxesCombined, Gauge} from "lucide-react"
 import { useEffect, useState } from "react";
 
 export function Sidebar(props) {
@@ -83,10 +85,10 @@ export function Sidebar(props) {
                                 link="/dashboard"
                             />
                             <MenuItem
-                                text="Kanban"
-                                icon={kanban}
-                                pill="Pro"
+                                text="Leaderboards"
+                                icon={leaderboard}
                                 type="info"
+                                link="/dashboard/leaderboards"
                             />
                             <MenuItem
                                 text="Inbox"
