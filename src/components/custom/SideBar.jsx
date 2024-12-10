@@ -14,12 +14,9 @@ import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import API from "@/API";
-import {ChartNoAxesCombined, Gauge} from "lucide-react"
-import { useEffect, useState } from "react";
 
 export function Sidebar(props) {
     const navigate = useNavigate();
-    const [notifs, setNotifs] = useState(0);
 
     const logoutRequest = useMutation({
         mutationFn: API.logout,
@@ -33,16 +30,17 @@ export function Sidebar(props) {
         },
     });
 
+    //TODO cambiare in notifiche lato server
     const getnotifications = useQuery({
         queryKey: ["notifications"],
         queryFn: API.checkNotifications,
-        refetchInterval: 5000,
+        //refetchInterval: 5000,
     });
 
     const logout = () => {
         logoutRequest.mutate();
     };
-    
+
     if (props.user) {
         return (
             <>
@@ -64,11 +62,11 @@ export function Sidebar(props) {
                     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
                         <div className="flex items-center gap-4 p-2">
                             <Link to="/dashboard/profile">
-                            <img
-                                className="w-10 h-10 rounded-full"
-                                src={profileIcon}
-                                alt=""
-                            />
+                                <img
+                                    className="w-10 h-10 rounded-full"
+                                    src={profileIcon}
+                                    alt=""
+                                />
                             </Link>
                             <div className="font-medium dark:text-white">
                                 <div>{props.user.username}</div>

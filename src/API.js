@@ -80,6 +80,20 @@ const getUserLeaderboard = (userId) => {
         .then((res) => res.data);
 };
 
+const inviteFriend = (data) => {
+    return axiosConf
+        .post(URL + "/users/send-invite", data)
+        .then((res) => res.data);
+};
+
+const getInvites = () => {
+    return axiosConf.get(URL + "/users/invites").then((res) => res.data);
+};
+
+const acceptInvite = (id) => {
+    return axiosConf.post(URL + "/users/accept-invite", id).then((res) => res.data);
+};
+
 const API = {
     register,
     login,
@@ -94,7 +108,10 @@ const API = {
     getFriends,
     submitLeader,
     getLeaderboard,
-    getUserLeaderboard
+    getUserLeaderboard,
+    inviteFriend,
+    getInvites,
+    acceptInvite,
 };
 
 export default API;

@@ -91,25 +91,30 @@ export function Friends(props) {
             <div className="p-4 sm:ml-64">
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
                     {console.log(friends.isSuccess)}
-                    {(friends.isSuccess && friends.data != null && friends.data.length > 0)
-                        ? friends.data.map((x) => (
-                              <div
-                                  className="flex p-2 my-1 rounded-lg shadow-lg"
-                                  key={x.id}
-                              >
-                                  <div className="align-middle">
-                                      <div>
-                                          <img
-                                              src={x.profilePicture}
-                                              className="h-14"
-                                          />
-                                      </div>
-                                      <div>{x.UserAuth.username}</div>
-                                  </div>
-                                  
-                              </div>
-                          ))
-                        : ""}
+                    {friends.isSuccess &&
+                    friends.data != null &&
+                    friends.data.length > 0 ? (
+                        friends.data.map((x) => (
+                            <div
+                                className="flex p-2 my-1 rounded-lg shadow-lg"
+                                key={x.id}
+                            >
+                                <div className="align-middle">
+                                    <div>
+                                        <img
+                                            src={x.profilePicture}
+                                            className="h-14"
+                                        />
+                                    </div>
+                                    <div>{x.UserAuth.username}</div>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="flex justify-center text-2xl font-medium text-slate-500">
+                            You don't have any friends yet... :(
+                        </div>
+                    )}
                 </div>
             </div>
             {showSuccess ? (

@@ -1,6 +1,7 @@
 import API from "@/API";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { Bracket } from "./Bracket";
 
 export function TournamentDetails(props) {
     const { tourId } = useParams();
@@ -50,6 +51,9 @@ export function TournamentDetails(props) {
                                 {data.matches.map((m, i) => (
                                     <div key={i}>{m.name}</div>
                                 ))}
+                            </div>
+                            <div>
+                                {/* <Bracket></Bracket> */}
                             </div>
                         </>
                     ) : (
