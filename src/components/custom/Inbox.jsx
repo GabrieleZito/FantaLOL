@@ -36,7 +36,7 @@ export function Inbox(props) {
         mutationFn: API.acceptInvite,
         onSuccess: (data) => {
             console.log(data);
-            //queryClient.invalidateQueries({ queryKey: ["invites"] });
+            queryClient.invalidateQueries({ queryKey: ["invites"] });
         },
         onError: (err) => {
             if (err.response.status == 401) {

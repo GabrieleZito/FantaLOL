@@ -11,23 +11,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { useState } from "react";
@@ -44,33 +29,55 @@ const diagSchema = z.object({
 });
 
 export function Leaderboards(props) {
-    const [priv, setPriv] = useState(false);   
+    
+    const [priv, setPriv] = useState(false);
 
     const userLead = useQuery({
         queryKey: ["userLead"],
-        queryFn: () => API.getUserLeaderboard(props.user.id)
-    })
-    console.log(userLead.data)
-    /* const friendsLead = useQuery({
+        queryFn: () => API.getUserLeaderboard(props.user.id),
+    });
+    //console.log(userLead.data);
+    const friendsLead = useQuery({
         queryKey: ["friendLead"],
-        que
-    }) */
-
+        queryFn: () => API.getFriendsLeaderboards(props.user.id),
+    });
+    //TODO far vedere le monete disponibili
+    //TODO organizzare la tabella in base ai punti
     return (
         <>
             <div className="p-4 sm:ml-64">
-                    <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-                        <div className="flex space-x-4 align-middle">
-                            <div className="text-2xl font-medium text-slate-500">
-                                Your Leaderboards
-                            </div>
-                            <LeadDialog
-                                priv={priv}
-                                setPriv={setPriv}
-                                user={props.user}
-                            />
-                        </div>
-                        {userLead.data ? (
+                <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+                    <div className="flex space-x-4 align-middle">
+                        <div className="text-2xl font-medium text-slate-500">Your Leaderboards</div>
+                        <LeadDialog priv={priv} setPriv={setPriv} user={props.user} />
+                    </div>
+                    {userLead.data ? (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Name</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {userLead.data.map((x) => (
+                                    <TableRow key={x.id}>
+                                        <TableCell>{x.name}</TableCell>
+                                        <TableCell className="text-right">
+                                            <Link to={`/dashboard/leaderboards/${x.id}`}>
+                                                <Button className="">Details</Button>
+                                            </Link>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        ""
+                    )}
+                    <Separator className="my-4" />
+                    <p className="text-2xl font-medium text-slate-500">Friends' Leaderboards</p>
+                    <div>
+                        {friendsLead.data ? (
                             <Table>
                                 <TableHeader>
                                     <TableRow>
@@ -78,27 +85,30 @@ export function Leaderboards(props) {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {userLead.data.map( x => (
+                                    {friendsLead.data.map((x) => (
                                         <TableRow key={x.id}>
                                             <TableCell>{x.name}</TableCell>
-                                            <TableCell className="text-right"><Link to={`/dashboard/leaderboards/${x.id}`}><Button className="">Details</Button></Link></TableCell>
+                                            <TableCell className="text-right">
+                                                <Link to={`/dashboard/leaderboards/${x.id}`}>
+                                                    <Button className="">Details</Button>
+                                                </Link>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>
-                        ):("")}
-                        <Separator className="my-4" />
-                        <p className="text-2xl font-medium text-slate-500">
-                            Friends' Leaderboards
-                        </p>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 </div>
+            </div>
         </>
     );
 }
 //TODO Gestione errore nome duplicato
 function LeadDialog(props) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -111,7 +121,7 @@ function LeadDialog(props) {
         mutationFn: API.submitLeader,
         onSuccess: (data) => {
             console.log(data);
-            navigate("/dashboard/leaderboards/"+data)
+            navigate("/dashboard/leaderboards/" + data);
         },
         onError: (err) => {
             console.log(err);
@@ -145,9 +155,7 @@ function LeadDialog(props) {
                     </Label>
                     <Select onValueChange={props.setPriv}>
                         <SelectTrigger className="w-[180px]">
-                            <SelectValue
-                                placeholder={props.priv ? "Private" : "Public"}
-                            />
+                            <SelectValue placeholder={props.priv ? "Private" : "Public"} />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value={true}>Private</SelectItem>
@@ -171,34 +179,16 @@ function LeadDialog(props) {
                             />
                         </div>
                         <div className="flex justify-end">
-                            {errors.name ? (
-                                <p className="mt-0 text-sm text-red-500">
-                                    {errors.name.message}
-                                </p>
-                            ) : (
-                                ""
-                            )}
+                            {errors.name ? <p className="mt-0 text-sm text-red-500">{errors.name.message}</p> : ""}
                         </div>
                         <div className="grid items-center grid-cols-4 gap-4">
                             <Label htmlFor="coins" className="text-right">
                                 Max Coins
                             </Label>
-                            <Input
-                                id="coins"
-                                {...register("coins")}
-                                className="col-span-3"
-                                type="number"
-                                placeholder="1"
-                            />
+                            <Input id="coins" {...register("coins")} className="col-span-3" type="number" placeholder="1" />
                         </div>
                         <div className="flex justify-end">
-                            {errors.coins ? (
-                                <p className="mt-2 text-sm text-red-500">
-                                    {errors.coins.message}
-                                </p>
-                            ) : (
-                                ""
-                            )}
+                            {errors.coins ? <p className="mt-2 text-sm text-red-500">{errors.coins.message}</p> : ""}
                         </div>
                         <div className="grid items-center grid-cols-4 gap-4">
                             <Label htmlFor="fee" className="text-right">
@@ -207,8 +197,7 @@ function LeadDialog(props) {
                             <Input
                                 id="fee"
                                 {...register("fee", {
-                                    setValueAs: (v) =>
-                                        v === "" ? undefined : parseInt(v, 10),
+                                    setValueAs: (v) => (v === "" ? undefined : parseInt(v, 10)),
                                 })}
                                 className="col-span-3"
                                 type="number"
@@ -216,13 +205,7 @@ function LeadDialog(props) {
                             />
                         </div>
                         <div className="flex justify-end">
-                            {errors.fee ? (
-                                <p className="mt-2 text-sm text-red-500">
-                                    {errors.fee.message}
-                                </p>
-                            ) : (
-                                ""
-                            )}
+                            {errors.fee ? <p className="mt-2 text-sm text-red-500">{errors.fee.message}</p> : ""}
                         </div>
                     </div>
 

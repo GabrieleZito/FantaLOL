@@ -11,33 +11,23 @@ const register = (user) => {
 };
 
 const login = (credentials) => {
-    return axiosConf
-        .post(URL + "/auth/login", credentials)
-        .then((res) => res.data);
+    return axiosConf.post(URL + "/auth/login", credentials).then((res) => res.data);
 };
 
 const currentTournaments = () => {
-    return axiosConf
-        .get(URL + "/league/tournaments/currentTournaments")
-        .then((res) => res.data);
+    return axiosConf.get(URL + "/league/tournaments/currentTournaments").then((res) => res.data);
 };
 
 const nextTournaments = () => {
-    return axiosConf
-        .get(URL + "/league/tournaments/nextTournaments")
-        .then((res) => res.data);
+    return axiosConf.get(URL + "/league/tournaments/nextTournaments").then((res) => res.data);
 };
 
 const tournamentFromId = (id) => {
-    return axiosConf
-        .get(URL + "/league/tournaments/" + id)
-        .then((res) => res.data);
+    return axiosConf.get(URL + "/league/tournaments/" + id).then((res) => res.data);
 };
 
 const sendRequest = (search) => {
-    return axiosConf
-        .post(URL + `/users/${search}/request`)
-        .then((res) => res.data);
+    return axiosConf.post(URL + `/users/${search}/request`).then((res) => res.data);
 };
 
 const logout = () => {
@@ -49,15 +39,11 @@ const checkNotifications = () => {
 };
 
 const getFriendRequests = () => {
-    return axiosConf
-        .get(URL + "/users/friend-requests")
-        .then((res) => res.data);
+    return axiosConf.get(URL + "/users/friend-requests").then((res) => res.data);
 };
 
 const acceptFriend = (id) => {
-    return axiosConf
-        .post(URL + "/users/acceptFriend", id)
-        .then((res) => res.data);
+    return axiosConf.post(URL + "/users/acceptFriend", id).then((res) => res.data);
 };
 
 const getFriends = () => {
@@ -65,9 +51,7 @@ const getFriends = () => {
 };
 
 const submitLeader = (options) => {
-    return axiosConf
-        .post(URL + "/leaderboards/new", options)
-        .then((res) => res.data);
+    return axiosConf.post(URL + "/leaderboards/new", options).then((res) => res.data);
 };
 
 const getLeaderboard = (id) => {
@@ -75,15 +59,15 @@ const getLeaderboard = (id) => {
 };
 
 const getUserLeaderboard = (userId) => {
-    return axiosConf
-        .get(URL + "/leaderboards/user/" + userId)
-        .then((res) => res.data);
+    return axiosConf.get(URL + "/leaderboards/user/" + userId).then((res) => res.data);
+};
+
+const getFriendsLeaderboards = (userId) => {
+    return axiosConf.get(URL + "/leaderboards/user/" + userId + "/friends").then((res) => res.data);
 };
 
 const inviteFriend = (data) => {
-    return axiosConf
-        .post(URL + "/users/send-invite", data)
-        .then((res) => res.data);
+    return axiosConf.post(URL + "/users/send-invite", data).then((res) => res.data);
 };
 
 const getInvites = () => {
@@ -92,6 +76,10 @@ const getInvites = () => {
 
 const acceptInvite = (id) => {
     return axiosConf.post(URL + "/users/accept-invite", id).then((res) => res.data);
+};
+
+const getLEC = () => {
+    return axiosConf.get(URL + "/league/tournaments/lec").then((res) => res.data);
 };
 
 const API = {
@@ -112,6 +100,8 @@ const API = {
     inviteFriend,
     getInvites,
     acceptInvite,
+    getLEC,
+    getFriendsLeaderboards,
 };
 
 export default API;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
 import API from "../../API.js";
 import { Card } from "./Card";
@@ -83,6 +83,9 @@ export function Dashboard(props) {
                                                   }
                                               )
                                             : ""}
+                                            <Link to="/dashboard/LEC">
+                                              <Button>LEC</Button>
+                                            </Link>
                                     </div>
                                     <ScrollBar orientation="horizontal" />
                                 </ScrollArea>
