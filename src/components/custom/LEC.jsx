@@ -1,11 +1,6 @@
 import API from "@/API";
 import { useQuery } from "@tanstack/react-query";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export function LEC(props) {
     const lec = useQuery({
@@ -13,7 +8,7 @@ export function LEC(props) {
         queryFn: API.getLEC,
     });
     console.log(lec.data);
-
+    //TODO aggiungere simbolo caricamento
     return (
         <>
             <div className="p-4 sm:ml-64">
@@ -22,13 +17,8 @@ export function LEC(props) {
                         <>
                             <Accordion type="multiple">
                                 {lec.data.map((l) => (
-                                    <AccordionItem
-                                        value={l.name}
-                                        key={l.pageid}
-                                    >
-                                        <AccordionTrigger>
-                                            {l.name}
-                                        </AccordionTrigger>
+                                    <AccordionItem value={l.name} key={l.pageid}>
+                                        <AccordionTrigger>{l.name}</AccordionTrigger>
                                         <AccordionContent>
                                             <div className="flex justify-between">
                                                 <div>Start: {l.startdate}</div>

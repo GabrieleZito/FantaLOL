@@ -1,14 +1,5 @@
 import API from "@/API";
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -18,6 +9,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 
 export function LeaderboardDetails(props) {
+    const socket = props.socket
     const [invFriend, setInvFriend] = useState("");
     const { leadId } = useParams();
     const navigate = useNavigate();
@@ -26,6 +18,9 @@ export function LeaderboardDetails(props) {
         queryKey: ["leaderboard", leadId],
         queryFn: () => API.getLeaderboard(leadId),
     });
+    if (getLeaderboard.isSuccess) {
+        console.log(getLeaderboard.data);
+    }
 
     const friends = useQuery({
         queryKey: ["friends"],
@@ -48,7 +43,8 @@ export function LeaderboardDetails(props) {
         });
     };
 
-    const creaAsta = () => {
+    const apriAsta = () => {
+        //socket.emit("joinAsta", { leadid: leadId, userId: props.user.id, username: props.user.username });
         navigate("/dashboard/leaderboards/" + leadId + "/auction");
     };
 
@@ -57,7 +53,6 @@ export function LeaderboardDetails(props) {
         <>
             {getLeaderboard.data ? (
                 <>
-                    {console.log(getLeaderboard.data)}
                     <div className="p-4 sm:ml-64">
                         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                             <div className="flex items-center justify-between text-slate-400">
@@ -121,9 +116,9 @@ export function LeaderboardDetails(props) {
                                         )}
                                     </form>
                                     {getLeaderboard.data.createdBy == props.user.id ? (
-                                        <Button onClick={creaAsta}>Crea Asta</Button>
+                                        <Button onClick={apriAsta}>Crea Asta</Button>
                                     ) : (
-                                        <Button>Apri Asta</Button>
+                                        <Button onClick={apriAsta}>Apri Asta</Button>
                                     )}
                                 </div>
                                 <Table>
@@ -150,30 +145,5 @@ export function LeaderboardDetails(props) {
                 "ERRORE"
             )}
         </>
-    );
-}
-
-function InviteFriend(props) {
-    return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant=""> Invite</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle>Invite Friends</DialogTitle>
-                    <DialogDescription></DialogDescription>
-                </DialogHeader>
-                <div className="grid items-center grid-cols-4 gap-4">
-                    <Autocomplete
-                        id="invite-friend"
-                        sx={{ width: 300 }}
-                        options={props.friends.data}
-                        getOptionLabel={(opt) => opt.UserAuth.username}
-                        renderInput={(params) => <TextField {...params} />}
-                    />
-                </div>
-            </DialogContent>
-        </Dialog>
     );
 }

@@ -8,6 +8,7 @@ import {
     users,
     hamburgerMenu,
     leaderboard,
+    teams,
 } from "@/assets/svgConstants";
 import profileIcon from "@/assets/profileIcon.png";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
@@ -99,7 +100,7 @@ export function Sidebar(props) {
                                 icon={users}
                                 link="/dashboard/friends"
                             />
-                            <MenuItem text="Products" icon={products} />
+                            <MenuItem text="Teams" icon={teams} />
 
                             <li>
                                 <NavLink

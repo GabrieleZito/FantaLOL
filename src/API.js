@@ -82,6 +82,10 @@ const getLEC = () => {
     return axiosConf.get(URL + "/league/tournaments/lec").then((res) => res.data);
 };
 
+const getInfoLead = (leadId) => {
+    return axiosConf.get(URL + "/leaderboards/"+leadId+"/user").then(res => res.data)
+}
+
 const API = {
     register,
     login,
@@ -102,6 +106,7 @@ const API = {
     acceptInvite,
     getLEC,
     getFriendsLeaderboards,
+    getInfoLead,
 };
 
 export default API;

@@ -21,9 +21,9 @@ import { LEC } from "./components/custom/LEC";
 
 const queryClient = new QueryClient();
 
-//import socketIO from "socket.io-client";
+import socketIO from "socket.io-client";
 import { Auction } from "./components/custom/Auction";
-//const socket = socketIO.connect("http://localhost:9000");
+const socket = socketIO.connect("http://localhost:3000");
 
 function App() {
     const [user, setUser] = useState(null);
@@ -47,8 +47,8 @@ function App() {
                             <Route path="inbox" element={<Inbox />} />
                             <Route path="profile" element={<Profile user={user} />} />
                             <Route path="leaderboards" element={<Leaderboards user={user} />} />
-                            <Route path="leaderboards/:leadId" element={<LeaderboardDetails user={user} />} />
-                            <Route path="leaderboards/:leadId/auction" element={<Auction user={user} />} />
+                            <Route path="leaderboards/:leadId" element={<LeaderboardDetails user={user} socket={socket} />} />
+                            <Route path="leaderboards/:leadId/auction" element={<Auction user={user} socket={socket} />} />
                             <Route path="LEC" element={<LEC />} />
                         </Route>
                     </Routes>
