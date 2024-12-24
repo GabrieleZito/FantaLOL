@@ -106,7 +106,7 @@ export function Friends(props) {
                                             className="h-14"
                                         />
                                     </div>
-                                    <div>{x.UserAuth.username}</div>
+                                    <div>{x.username}</div>
                                 </div>
                             </div>
                         ))

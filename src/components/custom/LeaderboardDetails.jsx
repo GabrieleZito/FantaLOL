@@ -70,7 +70,7 @@ export function LeaderboardDetails(props) {
                                                     id="invite-friend"
                                                     sx={{ width: 300 }}
                                                     options={friends.data}
-                                                    getOptionLabel={(opt) => opt.UserAuth.username}
+                                                    getOptionLabel={(opt) => opt.username}
                                                     renderInput={(params) => (
                                                         <TextField
                                                             {...params}
@@ -103,7 +103,7 @@ export function LeaderboardDetails(props) {
                                                                     src={option.profilePicture}
                                                                     alt=""
                                                                 />
-                                                                {option.UserAuth.username}
+                                                                {option.username}
                                                             </Box>
                                                         );
                                                     }}
@@ -131,7 +131,7 @@ export function LeaderboardDetails(props) {
                                     <TableBody>
                                         {getLeaderboard.data.Partecipate.map((x) => (
                                             <TableRow key={x.id}>
-                                                <TableCell>{x.UserAuth.username}</TableCell>
+                                                <TableCell>{x.username}</TableCell>
                                                 <TableCell className="text-right">{x.Partecipations.score}</TableCell>
                                             </TableRow>
                                         ))}

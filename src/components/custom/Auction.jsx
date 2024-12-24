@@ -7,11 +7,11 @@ import { Button } from "../ui/button";
 import background from "@/assets/placeholder.png";
 import { Timer } from "./Timer";
 import coin from "@/assets/coin.png";
-import jungle from "@/assets/jungle.png";
-import mid from "@/assets/mid.png";
-import top from "@/assets/top.png";
-import bot from "@/assets/bot.png";
-import sup from "@/assets/sup.png";
+import Jungle from "@/assets/jungle.png";
+import Mid from "@/assets/mid.png";
+import Top from "@/assets/top.png";
+import Bot from "@/assets/bot.png";
+import Support from "@/assets/sup.png";
 
 import countries from "@/assets/misc/countries.json";
 
@@ -72,11 +72,8 @@ export function Auction(props) {
         });
     }, [socket]);
 
-    const startAsta = () => {
-        socket.emit("startAsta", parseInt(leadId), (player) => {
-            console.log(player);
-            setPlayer(player);
-        });
+    const nextPlayer = () => {
+        socket.emit("nextPlayer", parseInt(leadId));
     };
 
     //TODO separare i casi e fare notifiche sistemate
@@ -148,7 +145,20 @@ export function Auction(props) {
                                             <div className="absolute mt-[435px] ml-[140px] text-white text-2xl font-league">
                                                 {ageCalc(player.birthdate)}
                                             </div>
-                                            <img className="absolute w-[50px] mt-[461px] ml-[325px]" src={sup} />
+                                            {player.extradata.role == "Top" ? (
+                                                <img className="absolute w-[50px] mt-[461px] ml-[325px]" src={Top} />
+                                            ) : player.extradata.role == "Jungle" ? (
+                                                <img className="absolute w-[50px] mt-[461px] ml-[325px]" src={Jungle} />
+                                            ) : player.extradata.role == "Mid" ? (
+                                                <img className="absolute w-[50px] mt-[461px] ml-[325px]" src={Mid} />
+                                            ) : player.extradata.role == "Bot" ? (
+                                                <img className="absolute w-[50px] mt-[461px] ml-[325px]" src={Bot} />
+                                            ) : player.extradata.role == "Support" ? (
+                                                <img className="absolute w-[50px] mt-[461px] ml-[325px]" src={Support} />
+                                            ) : (
+                                                ""
+                                            )}
+                                            <img className="absolute w-[50px] mt-[461px] ml-[325px]" src={""} />;
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-center justify-center w-full space-y-8">
@@ -167,22 +177,26 @@ export function Auction(props) {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {bids.length > 0
-                                                            ? bids.map((b) => (
-                                                                  <tr
-                                                                      key={b.time}
-                                                                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                                                                  >
-                                                                      <th
-                                                                          scope="row"
-                                                                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                                                      >
-                                                                          {b.bid}
-                                                                      </th>
-                                                                      <td className="px-6 py-4">{b.username}</td>
-                                                                  </tr>
-                                                              ))
-                                                            : "Nessuna Offerta"}
+                                                        {bids.length > 0 ? (
+                                                            bids.map((b) => (
+                                                                <tr
+                                                                    key={b.time}
+                                                                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                                                >
+                                                                    <th
+                                                                        scope="row"
+                                                                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                                                    >
+                                                                        {b.bid}
+                                                                    </th>
+                                                                    <td className="px-6 py-4">{b.username}</td>
+                                                                </tr>
+                                                            ))
+                                                        ) : (
+                                                            <tr>
+                                                                <td>Nessuna Offerta</td>
+                                                            </tr>
+                                                        )}
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -217,7 +231,7 @@ export function Auction(props) {
                                     ></div>
 
                                     {info.data.createdBy == props.user.id ? (
-                                        <Button className="absolute" onClick={startAsta}>
+                                        <Button className="absolute" onClick={nextPlayer}>
                                             {" "}
                                             Inizia Asta
                                         </Button>
