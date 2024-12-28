@@ -1,6 +1,6 @@
 import API from "@/API";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -24,7 +24,9 @@ export function Auction(props) {
     const [bids, setBids] = useState([]);
     const [bid, setBid] = useState("");
     const [coins, setCoins] = useState();
-
+    const [timeLeft, setTimeLeft] = useState(null);
+    const queryClient = useQueryClient();
+    //TODO togliere info di troppo
     const info = useQuery({
         queryFn: () => API.getInfoLead(leadId),
         queryKey: ["infoLead"],
@@ -33,6 +35,7 @@ export function Auction(props) {
     useEffect(() => {
         socket.emit("joinAsta", { leadId: parseInt(leadId), userId: props.user.id, username: props.user.username }, (users) => {
             setUsers(users);
+            socket.emit("checkAuctions", parseInt(leadId));
         });
 
         return () => {
@@ -57,19 +60,41 @@ export function Auction(props) {
         });
 
         socket.on("newPlayer", (newPlayer) => {
-            if (player == null || player.id != newPlayer.id) {
-                setPlayer(newPlayer);
+            //console.log(newPlayer);
+            if (newPlayer && (player == null || player.id != newPlayer.id)) {
+                //console.log(newPlayer);
+                queryClient.invalidateQueries({ queryKey: ["infoLead"] });
+                setPlayer(newPlayer.Player);
+                setBids(newPlayer.bids);
             }
-            console.log(newPlayer);
         });
 
         socket.on("newBid", (bids) => {
+            console.log(bids);
             setBids(bids);
         });
 
         socket.on("endedAsta", (winner) => {
             console.log(winner);
         });
+
+        socket.on("timer:start", ({ remainingTime }) => {
+            console.log("timer start");
+            setTimeLeft(remainingTime);
+        });
+        socket.on("timer:end", (data) => {
+            console.log("timer end");
+            console.log(data);
+            setPlayer(null);
+            setTimeLeft(0);
+        });
+        socket.on("timer:sync", (remainingTime) => {
+            console.log("timer sync");
+            console.log(remainingTime);
+            setTimeLeft(remainingTime);
+        });
+
+        socket.on();
     }, [socket]);
 
     const nextPlayer = () => {
@@ -86,8 +111,8 @@ export function Auction(props) {
         ) {
             alert("Non hai abbastanza monete");
         } else {
-            socket.emit("bid", parseInt(leadId), bid, (bids) => {
-                setBids(bids);
+            socket.emit("bid", parseInt(leadId), bid, (error) => {
+                alert(error);
             });
         }
     };
@@ -137,11 +162,17 @@ export function Auction(props) {
                                             <div className="absolute mt-[401px] ml-[140px] text-white font-league text-2xl">
                                                 {player.teampagename.toUpperCase().replaceAll("_", " ")}
                                             </div>
-                                            <div className="absolute mt-[365px] ml-[140px] text-white font-league text-2xl">
-                                                {player.extradata.firstname.toUpperCase() +
-                                                    " " +
-                                                    player.extradata.lastname.toUpperCase()}
-                                            </div>
+                                            {player.extradata.firstname && player.extradata.lastname ? (
+                                                <div className="absolute mt-[365px] ml-[140px] text-white font-league text-2xl">
+                                                    {player.extradata.firstname.toUpperCase() +
+                                                        " " +
+                                                        player.extradata.lastname.toUpperCase()}
+                                                </div>
+                                            ) : (
+                                                <div className="absolute mt-[365px] ml-[140px] text-white font-league text-2xl">
+                                                    {player.name}
+                                                </div>
+                                            )}
                                             <div className="absolute mt-[435px] ml-[140px] text-white text-2xl font-league">
                                                 {ageCalc(player.birthdate)}
                                             </div>
@@ -162,7 +193,7 @@ export function Auction(props) {
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-center justify-center w-full space-y-8">
-                                        <Timer initialSeconds={60} resetTrigger={resetTimer} />
+                                        <Timer initialSeconds={Math.floor(timeLeft / 1000)} resetTrigger={resetTimer} />
                                         <div className="">
                                             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                                                 <table className="w-64 text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
@@ -184,12 +215,15 @@ export function Auction(props) {
                                                                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                                                 >
                                                                     <th
+                                                                        key={b.time}
                                                                         scope="row"
                                                                         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                                     >
                                                                         {b.bid}
                                                                     </th>
-                                                                    <td className="px-6 py-4">{b.username}</td>
+                                                                    <td key={b.time} className="px-6 py-4">
+                                                                        {b.UserProfile.username}
+                                                                    </td>
                                                                 </tr>
                                                             ))
                                                         ) : (

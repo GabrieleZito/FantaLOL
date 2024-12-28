@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const URL = "http://localhost:3000";
-//const URL = "https://fanta-lol-server.vercel.app"
+//const URL = "https://fantalol-server.onrender.com"
 
 const axiosConf = axios.create({
     withCredentials: true,
@@ -84,8 +84,8 @@ const getLEC = () => {
 };
 
 const getInfoLead = (leadId) => {
-    return axiosConf.get(URL + "/leaderboards/"+leadId+"/user").then(res => res.data)
-}
+    return axiosConf.get(URL + "/leaderboards/" + leadId + "/user").then((res) => res.data);
+};
 
 const API = {
     register,

@@ -24,7 +24,7 @@ const queryClient = new QueryClient();
 import socketIO from "socket.io-client";
 import { Auction } from "./components/custom/Auction";
 const socket = socketIO.connect("http://localhost:3000");
-//const socket = socketIO.connect("https://fanta-lol-server.vercel.app:3000");
+//const socket = socketIO.connect("https://fantalol-server.onrender.com");
 
 function App() {
     const [user, setUser] = useState(null);
