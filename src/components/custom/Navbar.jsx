@@ -1,30 +1,22 @@
 import { NavLink, Outlet } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
 export function NavBar(props) {
     return (
         <>
             <nav className="fixed top-0 z-20 w-full bg-white border-b border-gray-200 dark:bg-gray-900 start-0 dark:border-gray-600">
                 <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-                    <NavLink
-                        to="/"
-                        className="flex items-center space-x-3 rtl:space-x-reverse"
-                    >
-                        <img
-                            src="https://flowbite.com/docs/images/logo.svg"
-                            className="h-8"
-                            alt="Flowbite Logo"
-                        />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                            Flowbite
-                        </span>
+                    <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+                        <img src={logo} className="h-20" alt="Flowbite Logo" />
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">FantaLoL</span>
                     </NavLink>
                     <div className="flex space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
-                        <NavLink to="/sign-in">
+                        <NavLink to="/login">
                             <button
                                 type="button"
                                 className="px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
-                                Get started
+                                Log In
                             </button>
                         </NavLink>
                         <button
@@ -52,10 +44,7 @@ export function NavBar(props) {
                             </svg>
                         </button>
                     </div>
-                    <div
-                        className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-                        id="navbar-sticky"
-                    >
+                    <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                         <ul className="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg md:p-0 bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                             <li>
                                 <a

@@ -60,7 +60,7 @@ export function Auction(props) {
         });
 
         socket.on("newPlayer", (newPlayer) => {
-            //console.log(newPlayer);
+            console.log(newPlayer);
             if (newPlayer && (player == null || player.id != newPlayer.id)) {
                 //console.log(newPlayer);
                 queryClient.invalidateQueries({ queryKey: ["infoLead"] });
