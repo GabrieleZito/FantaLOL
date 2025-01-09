@@ -63,43 +63,19 @@ export function Sidebar(props) {
                     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
                         <div className="flex items-center gap-4 p-2">
                             <Link to="/dashboard/profile">
-                                <img
-                                    className="w-10 h-10 rounded-full"
-                                    src={profileIcon}
-                                    alt=""
-                                />
+                                <img className="w-10 h-10 rounded-full" src={profileIcon} alt="" />
                             </Link>
                             <div className="font-medium dark:text-white">
                                 <div>{props.user.username}</div>
-                                <div className="text-sm text-gray-500 dark:text-gray-400">
-                                    Joined in August 2014
-                                </div>
+                                <div className="text-sm text-gray-500 dark:text-gray-400">Joined in August 2014</div>
                             </div>
                         </div>
 
                         <ul className="space-y-2 font-medium">
-                            <MenuItem
-                                text="Dashboard"
-                                icon={dashboard}
-                                link="/dashboard"
-                            />
-                            <MenuItem
-                                text="Leaderboards"
-                                icon={leaderboard}
-                                type="info"
-                                link="/dashboard/leaderboards"
-                            />
-                            <MenuItem
-                                text="Inbox"
-                                icon={inbox}
-                                pill={getnotifications.data}
-                                link="/dashboard/inbox"
-                            />
-                            <MenuItem
-                                text="Friends"
-                                icon={users}
-                                link="/dashboard/friends"
-                            />
+                            <MenuItem text="Dashboard" icon={dashboard} link="/dashboard" />
+                            <MenuItem text="Leaderboards" icon={leaderboard} type="info" link="/dashboard/leaderboards" />
+                            <MenuItem text="Inbox" icon={inbox} pill={getnotifications.data} link="/dashboard/inbox" />
+                            <MenuItem text="Friends" icon={users} link="/dashboard/friends" />
                             <MenuItem text="Teams" icon={teams} />
 
                             <li>
@@ -108,9 +84,7 @@ export function Sidebar(props) {
                                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 >
                                     {signIn}
-                                    <span className="flex-1 ms-3 whitespace-nowrap">
-                                        Log Out
-                                    </span>
+                                    <span className="flex-1 ms-3 whitespace-nowrap">Log Out</span>
                                 </NavLink>
                             </li>
                         </ul>
@@ -157,14 +131,8 @@ function MenuItem(props) {
                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                 >
                     {props.icon}
-                    <span className="flex-1 ms-3 whitespace-nowrap">
-                        {props.text}
-                    </span>
-                    {props.pill ? (
-                        <span className={type}>{props.pill}</span>
-                    ) : (
-                        ""
-                    )}
+                    <span className="flex-1 ms-3 whitespace-nowrap">{props.text}</span>
+                    {props.pill ? <span className={type}>{props.pill}</span> : ""}
                 </NavLink>
             </li>
         </>

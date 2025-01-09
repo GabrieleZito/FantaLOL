@@ -12,6 +12,8 @@ import Mid from "@/assets/mid.png";
 import Top from "@/assets/top.png";
 import Bot from "@/assets/bot.png";
 import Support from "@/assets/sup.png";
+import { Separator } from "@/components/ui/separator";
+import { confirmationGreen, errorRed, close } from "@/assets/svgConstants";
 
 import countries from "@/assets/misc/countries.json";
 
@@ -23,9 +25,12 @@ export function Auction(props) {
     const [resetTimer, setResetTimer] = useState(false);
     const [bids, setBids] = useState([]);
     const [bid, setBid] = useState("");
-    const [coins, setCoins] = useState();
     const [timeLeft, setTimeLeft] = useState(null);
     const queryClient = useQueryClient();
+    const [team, setTeam] = useState(null);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState("");
+
     //TODO togliere info di troppo
     const info = useQuery({
         queryFn: () => API.getInfoLead(leadId),
@@ -82,19 +87,32 @@ export function Auction(props) {
             console.log("timer start");
             setTimeLeft(remainingTime);
         });
+
         socket.on("timer:end", (data) => {
             console.log("timer end");
             console.log(data);
+            //TODO forse non c'è bisogno del controllo e lo chiede sempre
+            if (data.winner == props.user.id) {
+                socket.emit("getTeam", parseInt(leadId));
+            }
             setPlayer(null);
             setTimeLeft(0);
         });
+
         socket.on("timer:sync", (remainingTime) => {
             console.log("timer sync");
             console.log(remainingTime);
             setTimeLeft(remainingTime);
         });
 
-        socket.on();
+        socket.on("team", (team) => {
+            console.log(team);
+            setTeam(team.Team.Players);
+        });
+
+        socket.on("prova", (data) => {
+            console.log(data);
+        });
     }, [socket]);
 
     const nextPlayer = () => {
@@ -104,17 +122,10 @@ export function Auction(props) {
     //TODO separare i casi e fare notifiche sistemate
     //TODO deve rimanere 1 credito per ogni giocatore mancante
     const sendBid = () => {
-        if (
-            info.data.Partecipate[0].Partecipations.coins < bid ||
-            bid == "" ||
-            (bids.length > 0 && bid <= parseInt(bids[0].bid))
-        ) {
-            alert("Non hai abbastanza monete");
-        } else {
-            socket.emit("bid", parseInt(leadId), bid, (error) => {
-                alert(error);
-            });
-        }
+        socket.emit("bid", parseInt(leadId), bid, (message) => {
+            setShowSuccess(message.success);
+            setShowError(message.error);
+        });
     };
 
     const ageCalc = (birthday) => {
@@ -281,16 +292,132 @@ export function Auction(props) {
                         ))}
                         <Button
                             onClick={() => {
-                                socket.emit("show");
+                                //socket.emit("show");
+                                team.sort((a, b) => (a.role > b.role ? 1 : b.role > a.role ? -1 : 0));
+                                console.log(team);
                             }}
                         >
                             Show
                         </Button>
+                        <Separator className="my-4" />
+                        <div className="flex flex-col">
+                            <div className="mx-auto text-2xl ">Your Team</div>
+                            <div className="flex flex-row justify-between">
+                                <div>
+                                    <p>Top</p>
+                                    <div>
+                                        {team
+                                            ? team.map((p) => {
+                                                  if (p.role == "Top") {
+                                                      return <div>{p.name}</div>;
+                                                  }
+                                                  return "";
+                                              })
+                                            : ""}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p>Jungle</p>
+                                    <div>
+                                        {team
+                                            ? team.map((p) => {
+                                                  if (p.role == "Jungle") {
+                                                      return <div>{p.name}</div>;
+                                                  }
+                                                  return "";
+                                              })
+                                            : ""}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p>Mid</p>
+                                    <div>
+                                        {team
+                                            ? team.map((p) => {
+                                                  if (p.role == "Mid") {
+                                                      return <div>{p.name}</div>;
+                                                  }
+                                                  return "";
+                                              })
+                                            : ""}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p>Bot</p>
+                                    <div>
+                                        {team
+                                            ? team.map((p) => {
+                                                  if (p.role == "Bot") {
+                                                      return <div>{p.name}</div>;
+                                                  }
+                                                  return "";
+                                              })
+                                            : ""}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p>Support</p>
+                                    <div>
+                                        {team
+                                            ? team.map((p) => {
+                                                  if (p.role == "Support") {
+                                                      return <div>{p.name}</div>;
+                                                  }
+                                                  return "";
+                                              })
+                                            : ""}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </>
                 ) : (
                     ""
                 )}
             </div>
+            <div>
+                {showSuccess ? (
+                    <Toast
+                        text="Request Sent"
+                        icon={confirmationGreen}
+                        setShowError={setShowError}
+                        setShowSuccess={setShowSuccess}
+                    />
+                ) : (
+                    ""
+                )}
+                {showError ? (
+                    <Toast text={showError} icon={errorRed} setShowError={setShowError} setShowSuccess={setShowSuccess} />
+                ) : (
+                    ""
+                )}
+            </div>
         </div>
+    );
+}
+
+function Toast(props) {
+    return (
+        <>
+            <div
+                id="toast-success"
+                className="fixed flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow top-5 right-5 dark:text-gray-400 dark:bg-gray-800"
+            >
+                {props.icon}
+                <div className="text-sm font-normal ms-3">{props.text}</div>
+                <button
+                    onClick={() => {
+                        props.setShowError("");
+                        props.setShowSuccess(false);
+                    }}
+                    type="button"
+                    className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                    aria-label="Close"
+                >
+                    <span className="sr-only">Close</span>
+                    {close}
+                </button>
+            </div>
+        </>
     );
 }

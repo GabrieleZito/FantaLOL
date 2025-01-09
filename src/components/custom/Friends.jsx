@@ -1,10 +1,5 @@
 import API from "@/API";
-import {
-    close,
-    confirmationGreen,
-    errorRed,
-    lens,
-} from "@/assets/svgConstants";
+import { close, confirmationGreen, errorRed, lens } from "@/assets/svgConstants";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +16,7 @@ export function Friends(props) {
         mutationKey: ["friendRequest", search],
         onSuccess: (data) => {
             const msg = data.msg;
-            console.log(msg);
+            //console.log(msg);
             setShowSuccess(true);
             setShowError("");
         },
@@ -39,7 +34,7 @@ export function Friends(props) {
         queryKey: ["friends"],
         queryFn: API.getFriends,
     });
-    console.log(friends.data);
+    //console.log(friends.data);
 
     const submit = (e) => {
         e.preventDefault();
@@ -51,10 +46,7 @@ export function Friends(props) {
             <div className="p-4 sm:ml-64">
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
                     <form onSubmit={submit}>
-                        <label
-                            htmlFor="search"
-                            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-                        >
+                        <label htmlFor="search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
                             Search
                         </label>
                         <div className="relative">
@@ -90,21 +82,13 @@ export function Friends(props) {
             </div>
             <div className="p-4 sm:ml-64">
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
-                    {console.log(friends.isSuccess)}
-                    {friends.isSuccess &&
-                    friends.data != null &&
-                    friends.data.length > 0 ? (
+                    
+                    {friends.isSuccess && friends.data != null && friends.data.length > 0 ? (
                         friends.data.map((x) => (
-                            <div
-                                className="flex p-2 my-1 rounded-lg shadow-lg"
-                                key={x.id}
-                            >
+                            <div className="flex p-2 my-1 rounded-lg shadow-lg" key={x.id}>
                                 <div className="align-middle">
                                     <div>
-                                        <img
-                                            src={x.profilePicture}
-                                            className="h-14"
-                                        />
+                                        <img src={x.profilePicture} className="h-14" />
                                     </div>
                                     <div>{x.username}</div>
                                 </div>
@@ -118,22 +102,12 @@ export function Friends(props) {
                 </div>
             </div>
             {showSuccess ? (
-                <Toast
-                    text="Request Sent"
-                    icon={confirmationGreen}
-                    setShowError={setShowError}
-                    setShowSuccess={setShowSuccess}
-                />
+                <Toast text="Request Sent" icon={confirmationGreen} setShowError={setShowError} setShowSuccess={setShowSuccess} />
             ) : (
                 ""
             )}
             {showError ? (
-                <Toast
-                    text={showError}
-                    icon={errorRed}
-                    setShowError={setShowError}
-                    setShowSuccess={setShowSuccess}
-                />
+                <Toast text={showError} icon={errorRed} setShowError={setShowError} setShowSuccess={setShowSuccess} />
             ) : (
                 ""
             )}

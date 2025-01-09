@@ -4,12 +4,12 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useState } from "react";
 
 export function LeaderboardDetails(props) {
-    const socket = props.socket
+    const socket = props.socket;
     const [invFriend, setInvFriend] = useState("");
     const { leadId } = useParams();
     const navigate = useNavigate();
@@ -115,11 +115,16 @@ export function LeaderboardDetails(props) {
                                             ""
                                         )}
                                     </form>
-                                    {getLeaderboard.data.createdBy == props.user.id ? (
-                                        <Button onClick={apriAsta}>Crea Asta</Button>
-                                    ) : (
-                                        <Button onClick={apriAsta}>Apri Asta</Button>
-                                    )}
+                                    <div>
+                                        <Link to={"/dashboard/leaderboards/"+leadId+"/team"}>
+                                            <Button className="mr-1">Team</Button>
+                                        </Link>
+                                        {getLeaderboard.data.createdBy == props.user.id ? (
+                                            <Button onClick={apriAsta}>Crea Asta</Button>
+                                        ) : (
+                                            <Button onClick={apriAsta}>Apri Asta</Button>
+                                        )}
+                                    </div>
                                 </div>
                                 <Table>
                                     <TableHeader>

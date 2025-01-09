@@ -71,79 +71,30 @@ export function SignIn(props) {
         <>
             <div className="container flex items-center justify-center h-auto py-28">
                 <div className="w-96">
-                    <form
-                        onSubmit={handleSubmit(onSubmit)}
-                        className="flex flex-col items-center space-y-2"
-                    >
+                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center space-y-2">
                         <div className="grid w-full max-w-sm items-center gap-1.5">
                             <Label htmlFor="email">Email</Label>
-                            <Input
-                                {...register("email")}
-                                type="email"
-                                id="email"
-                                placeholder="Email"
-                            />
-                            {errors.email ? (
-                                <p className="mt-2 text-sm text-red-500">
-                                    {errors.email.message}
-                                </p>
-                            ) : (
-                                ""
-                            )}
+                            <Input {...register("email")} type="email" id="email" placeholder="Email" />
+                            {errors.email ? <p className="mt-2 text-sm text-red-500">{errors.email.message}</p> : ""}
                         </div>
                         <div className="grid w-full max-w-sm items-center gap-1.5">
                             <Label htmlFor="username">Username</Label>
-                            <Input
-                                {...register("username")}
-                                type="text"
-                                id="username"
-                                placeholder="Username"
-                            />
-                            {errors.username ? (
-                                <p className="mt-2 text-sm text-red-500">
-                                    {errors.username.message}
-                                </p>
-                            ) : (
-                                ""
-                            )}
+                            <Input {...register("username")} type="text" id="username" placeholder="Username" />
+                            {errors.username ? <p className="mt-2 text-sm text-red-500">{errors.username.message}</p> : ""}
                         </div>
                         <div className="grid w-full max-w-sm items-center gap-1.5">
                             <Label htmlFor="pwd">Password</Label>
-                            <Input
-                                {...register("password")}
-                                type="password"
-                                id="pwd"
-                                placeholder="Password"
-                            />
-                            {errors.password ? (
-                                <p className="mt-2 text-sm text-red-500">
-                                    {errors.password.message}
-                                </p>
-                            ) : (
-                                ""
-                            )}
+                            <Input {...register("password")} type="password" id="pwd" placeholder="Password" />
+                            {errors.password ? <p className="mt-2 text-sm text-red-500">{errors.password.message}</p> : ""}
                         </div>
                         <div className="grid w-full max-w-sm items-center gap-1.5">
                             <Label htmlFor="repwd">Repeat Password</Label>
-                            <Input
-                                {...register("repassword")}
-                                type="password"
-                                id="repwd"
-                                placeholder="Password"
-                            />
-                            {errors.repassword ? (
-                                <p className="mt-2 text-sm text-red-500">
-                                    {errors.repassword.message}
-                                </p>
-                            ) : (
-                                ""
-                            )}
+                            <Input {...register("repassword")} type="password" id="repwd" placeholder="Password" />
+                            {errors.repassword ? <p className="mt-2 text-sm text-red-500">{errors.repassword.message}</p> : ""}
                         </div>
                         <div className="container flex justify-between px-0">
                             <NavLink to="/login">
-                                <p className="text-sm">
-                                    Already have an account? Login
-                                </p>
+                                <p className="text-sm">Already have an account? Login</p>
                             </NavLink>
                         </div>
                         <Button disabled={isSubmitting} className="">

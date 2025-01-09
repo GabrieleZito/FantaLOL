@@ -29,7 +29,6 @@ const diagSchema = z.object({
 });
 
 export function Leaderboards(props) {
-    
     const [priv, setPriv] = useState(false);
 
     const userLead = useQuery({

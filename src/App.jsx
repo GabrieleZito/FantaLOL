@@ -23,6 +23,7 @@ const queryClient = new QueryClient();
 
 import socketIO from "socket.io-client";
 import { Auction } from "./components/custom/Auction";
+import { Team } from "./components/custom/Team";
 const socket = socketIO.connect("http://localhost:3000");
 //const socket = socketIO.connect("https://fantalol-server.onrender.com");
 
@@ -50,6 +51,7 @@ function App() {
                             <Route path="leaderboards" element={<Leaderboards user={user} />} />
                             <Route path="leaderboards/:leadId" element={<LeaderboardDetails user={user} socket={socket} />} />
                             <Route path="leaderboards/:leadId/auction" element={<Auction user={user} socket={socket} />} />
+                            <Route path="leaderboards/:leadId/team" element={<Team user={user} socket={socket} />} />
                             <Route path="LEC" element={<LEC />} />
                         </Route>
                     </Routes>
