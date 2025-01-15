@@ -91,6 +91,7 @@ const getUserTeam = (leadId) => {
     return axiosConf.get(URL + "/leaderboards/" + leadId + "/team").then((res) => res.data);
 };
 
+
 const API = {
     register,
     login,
@@ -112,7 +113,7 @@ const API = {
     getLEC,
     getFriendsLeaderboards,
     getInfoLead,
-    getUserTeam
+    getUserTeam,
 };
 
 export default API;
