@@ -33,6 +33,8 @@ export function Dashboard(props) {
         //const c = groupTournamentsByLeague
         console.log(currentT.data);
     }
+    console.log(import.meta.env.VITE_API_URL);
+
     return (
         <>
             <div className="p-4 sm:ml-64">
@@ -89,7 +91,7 @@ export function Dashboard(props) {
                                                                         <div className="flex flex-col">
                                                                             {value.map((v) => {
                                                                                 if (v.TournamentLevel == "Primary") {
-                                                                                    return <div>{v.Name}</div>;
+                                                                                    return <div key={v.name}>{v.Name}</div>;
                                                                                 }
                                                                             })}
                                                                         </div>
@@ -99,7 +101,7 @@ export function Dashboard(props) {
                                                                         <div className="flex flex-col">
                                                                             {value.map((v) => {
                                                                                 if (v.TournamentLevel == "Secondary") {
-                                                                                    return <div>{v.Name}</div>;
+                                                                                    return <div key={v.name}>{v.Name}</div>;
                                                                                 }
                                                                             })}
                                                                         </div>

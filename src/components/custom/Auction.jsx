@@ -309,7 +309,7 @@ export function Auction(props) {
                                         {team
                                             ? team.map((p) => {
                                                   if (p.role == "Top") {
-                                                      return <div>{p.name}</div>;
+                                                      return <div key={p.name}>{p.name}</div>;
                                                   }
                                                   return "";
                                               })
@@ -322,7 +322,7 @@ export function Auction(props) {
                                         {team
                                             ? team.map((p) => {
                                                   if (p.role == "Jungle") {
-                                                      return <div>{p.name}</div>;
+                                                      return <div key={p.name}>{p.name}</div>;
                                                   }
                                                   return "";
                                               })
@@ -335,7 +335,7 @@ export function Auction(props) {
                                         {team
                                             ? team.map((p) => {
                                                   if (p.role == "Mid") {
-                                                      return <div>{p.name}</div>;
+                                                      return <div key={p.name}>{p.name}</div>;
                                                   }
                                                   return "";
                                               })
@@ -348,7 +348,7 @@ export function Auction(props) {
                                         {team
                                             ? team.map((p) => {
                                                   if (p.role == "Bot") {
-                                                      return <div>{p.name}</div>;
+                                                      return <div key={p.name}>{p.name}</div>;
                                                   }
                                                   return "";
                                               })
@@ -361,7 +361,7 @@ export function Auction(props) {
                                         {team
                                             ? team.map((p) => {
                                                   if (p.role == "Support") {
-                                                      return <div>{p.name}</div>;
+                                                      return <div key={p.name}>{p.name}</div>;
                                                   }
                                                   return "";
                                               })

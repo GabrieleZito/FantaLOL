@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://localhost:3000";
+const URL = import.meta.env.VITE_API_URL;
 //const URL = "https://fantalol-server.onrender.com"
 
 const axiosConf = axios.create({
@@ -90,7 +90,6 @@ const getInfoLead = (leadId) => {
 const getUserTeam = (leadId) => {
     return axiosConf.get(URL + "/leaderboards/" + leadId + "/team").then((res) => res.data);
 };
-
 
 const API = {
     register,

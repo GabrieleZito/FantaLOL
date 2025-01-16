@@ -24,7 +24,7 @@ const queryClient = new QueryClient();
 import socketIO from "socket.io-client";
 import { Auction } from "./components/custom/Auction";
 import { Team } from "./components/custom/Team";
-const socket = socketIO.connect("http://localhost:3000");
+const socket = socketIO.connect(import.meta.env.VITE_API_URL);
 //const socket = socketIO.connect("https://fantalol-server.onrender.com");
 
 function App() {
