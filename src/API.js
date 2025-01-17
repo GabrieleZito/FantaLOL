@@ -91,6 +91,10 @@ const getUserTeam = (leadId) => {
     return axiosConf.get(URL + "/leaderboards/" + leadId + "/team").then((res) => res.data);
 };
 
+const leagues = () => {
+    return axiosConf.get(URL + "/league/currentLeagues").then((res) => res.data);
+};
+
 const API = {
     register,
     login,
@@ -113,6 +117,7 @@ const API = {
     getFriendsLeaderboards,
     getInfoLead,
     getUserTeam,
+    leagues
 };
 
 export default API;

@@ -19,21 +19,7 @@ export function Dashboard(props) {
         queryKey: ["next"],
     });
 
-    function groupTournamentsByLeague(tournaments) {
-        return tournaments.reduce((groups, tournament) => {
-            const key = tournament.LeagueIconKey;
-            if (!groups[key]) {
-                groups[key] = [];
-            }
-            groups[key].push(tournament);
-            return groups;
-        }, {});
-    }
-    if (currentT.data) {
-        //const c = groupTournamentsByLeague
-        console.log(currentT.data);
-    }
-    console.log(import.meta.env.VITE_API_URL);
+    //console.log(import.meta.env.VITE_API_URL);
 
     return (
         <>
@@ -88,7 +74,7 @@ export function Dashboard(props) {
                                                                 <div className="px-14 flex flex-row justify-between">
                                                                     <div className="">
                                                                         <p>Primary</p>
-                                                                        <div className="flex flex-col">
+                                                                        <div className="flex flex-col" key={value.length}>
                                                                             {value.map((v) => {
                                                                                 if (v.TournamentLevel == "Primary") {
                                                                                     return <div key={v.name}>{v.Name}</div>;

@@ -19,6 +19,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import Autocomplete from "@mui/material/Autocomplete";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import API from "@/API";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -35,20 +38,23 @@ export function Leaderboards(props) {
         queryKey: ["userLead"],
         queryFn: () => API.getUserLeaderboard(props.user.id),
     });
-    //console.log(userLead.data);
     const friendsLead = useQuery({
         queryKey: ["friendLead"],
         queryFn: () => API.getFriendsLeaderboards(props.user.id),
     });
+    const leagues = useQuery({
+        queryKey: ["leagues"],
+        queryFn: API.leagues,
+    });
     //TODO far vedere le monete disponibili
-    //TODO organizzare la tabella in base ai punti
+    //TODO ordinare la tabella in base ai punti
     return (
         <>
             <div className="p-4 sm:ml-64">
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                     <div className="flex space-x-4 align-middle">
                         <div className="text-2xl font-medium text-slate-500">Your Leaderboards</div>
-                        <LeadDialog priv={priv} setPriv={setPriv} user={props.user} />
+                        <LeadDialog priv={priv} setPriv={setPriv} user={props.user} leagues={leagues} />
                     </div>
                     {userLead.data ? (
                         <Table>
@@ -108,6 +114,8 @@ export function Leaderboards(props) {
 //TODO Gestione errore nome duplicato
 function LeadDialog(props) {
     const navigate = useNavigate();
+    const [league, setLeague] = useState(null);
+    const [leagueError, setError] = useState("");
     const {
         register,
         handleSubmit,
@@ -129,13 +137,18 @@ function LeadDialog(props) {
 
     const onSubmit = () => {
         event.preventDefault();
-        submitLeaderboard.mutate({
-            idUser: props.user.id,
-            name: getValues("name"),
-            coins: getValues("coins"),
-            fee: getValues("fee"),
-            private: props.priv,
-        });
+        if (!league) {
+            setError("Select a League");
+        } else {
+            submitLeaderboard.mutate({
+                idUser: props.user.id,
+                name: getValues("name"),
+                coins: getValues("coins"),
+                fee: getValues("fee"),
+                private: props.priv,
+                league: league,
+            });
+        }
     };
 
     return (
@@ -163,7 +176,60 @@ function LeadDialog(props) {
                     </Select>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="grid gap-4 py-2">
+                    <div className="grid gap-2 py-2">
+                        <div className="grid items-center grid-cols-4 gap-4 ">
+                            <Label className="text-right align-middle">League</Label>
+
+                            <div>
+                                {props.leagues.data ? (
+                                    <>
+                                        {/* //TODO rendere obbligatorio */}
+                                        <Autocomplete
+                                            disablePortal
+                                            id="select-league"
+                                            sx={{ width: 277.25 }}
+                                            options={props.leagues.data}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    label="Select a League"
+                                                    slotProps={{
+                                                        htmlInput: {
+                                                            ...params.inputProps,
+                                                            autoComplete: "new-password", // disable autocomplete and autofill
+                                                        },
+                                                    }}
+                                                />
+                                            )}
+                                            renderOption={(prop, option) => {
+                                                const { key, ...optionProps } = prop;
+                                                return (
+                                                    <Box
+                                                        key={key}
+                                                        component="li"
+                                                        sx={{
+                                                            "& > img": {
+                                                                mr: 2,
+                                                                flexShrink: 0,
+                                                            },
+                                                        }}
+                                                        {...optionProps}
+                                                    >
+                                                        {option}
+                                                    </Box>
+                                                );
+                                            }}
+                                            onChange={(e, v) => setLeague(v)}
+                                        />
+                                    </>
+                                ) : (
+                                    ""
+                                )}
+                            </div>
+                        </div>
+                        <div className="flex justify-end">
+                            {leagueError ? <p className=" text-sm text-red-500">{leagueError}</p> : ""}
+                        </div>
                         <div className="grid items-center grid-cols-4 gap-4">
                             <Label htmlFor="name" className="text-right">
                                 Name

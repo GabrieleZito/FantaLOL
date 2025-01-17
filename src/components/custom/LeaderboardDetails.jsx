@@ -26,9 +26,6 @@ export function LeaderboardDetails(props) {
         queryKey: ["friends"],
         queryFn: API.getFriends,
     });
-    //console.log(friends.data);
-    //console.log(typeof friends);
-    //console.log(Object.values(friends));
 
     const invite = useMutation({
         mutationKey: ["inviteFriend"],
