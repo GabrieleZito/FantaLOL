@@ -10,7 +10,6 @@ import {
     leaderboard,
     teams,
 } from "@/assets/svgConstants";
-import profileIcon from "@/assets/profileIcon.png";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -31,7 +30,7 @@ export function Sidebar(props) {
         },
     });
 
-    //TODO cambiare in notifiche lato server
+    //TODO cambiare in notifiche con socket
     const getnotifications = useQuery({
         queryKey: ["notifications"],
         queryFn: API.checkNotifications,
@@ -42,6 +41,7 @@ export function Sidebar(props) {
         logoutRequest.mutate();
     };
 
+    //TODO: aggiornare placeholder
     if (props.user) {
         return (
             <>
@@ -63,11 +63,11 @@ export function Sidebar(props) {
                     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
                         <div className="flex items-center gap-4 p-2">
                             <Link to="/dashboard/profile">
-                                <img className="w-10 h-10 rounded-full" src={profileIcon} alt="" />
+                                <img className="w-10 h-10 rounded-full" src={props.user.profilePicture} alt="" />
                             </Link>
                             <div className="font-medium dark:text-white">
                                 <div>{props.user.username}</div>
-                                <div className="text-sm text-gray-500 dark:text-gray-400">Joined in August 2014</div>
+                                <div className="text-sm text-gray-500 dark:text-gray-400">placeholder</div>
                             </div>
                         </div>
 

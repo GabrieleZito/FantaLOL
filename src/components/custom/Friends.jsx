@@ -3,7 +3,9 @@ import { close, confirmationGreen, errorRed, lens } from "@/assets/svgConstants"
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export function Friends(props) {
     const navigate = useNavigate();
@@ -82,17 +84,22 @@ export function Friends(props) {
             </div>
             <div className="p-4 sm:ml-64">
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
-                    
                     {friends.isSuccess && friends.data != null && friends.data.length > 0 ? (
                         friends.data.map((x) => (
-                            <div className="flex p-2 my-1 rounded-lg shadow-lg" key={x.id}>
-                                <div className="align-middle">
-                                    <div>
-                                        <img src={x.profilePicture} className="h-14" />
+                            <Card key={x.id} className="mb-2">
+                                {console.log(x)}
+                                <CardContent className="flex items-center p-4 mb-">
+                                    <Avatar className="h-12 w-12">
+                                        <AvatarImage src={x.profilePicture} alt={x.username} />
+                                        <AvatarFallback>{x.username.slice(0, 2).toUpperCase()}</AvatarFallback>
+                                    </Avatar>
+                                    <div className="ml-4 flex-grow">
+                                        <div className="font-semibold">{x.firstName + " " + x.lastName} </div>
+                                        <div className="text-sm text-muted-foreground">@{x.username}</div>
                                     </div>
-                                    <div>{x.username}</div>
-                                </div>
-                            </div>
+                                    {/* <StatusBadge status={x.status} lastSeen={x.lastSeen} /> */}
+                                </CardContent>
+                            </Card>
                         ))
                     ) : (
                         <div className="flex justify-center text-2xl font-medium text-slate-500">
@@ -138,5 +145,19 @@ function Toast(props) {
                 </button>
             </div>
         </>
+    );
+}
+function StatusBadge({ status, lastSeen }) {
+    const statusConfig = {
+        online: { label: "Online", color: "bg-green-500" },
+        offline: { label: "Offline", color: "bg-gray-500" },
+        away: { label: "Away", color: "bg-yellow-500" },
+    };
+
+    return (
+        <div className="text-right">
+            <Badge className={`${statusConfig[status].color} text-white`}>{statusConfig[status].label}</Badge>
+            {status === "offline" && lastSeen && <div className="text-xs text-muted-foreground mt-1">Last seen: {lastSeen}</div>}
+        </div>
     );
 }

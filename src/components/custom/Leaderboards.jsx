@@ -46,6 +46,7 @@ export function Leaderboards(props) {
         queryKey: ["leagues"],
         queryFn: API.leagues,
     });
+    
     //TODO far vedere le monete disponibili
     //TODO ordinare la tabella in base ai punti
     return (

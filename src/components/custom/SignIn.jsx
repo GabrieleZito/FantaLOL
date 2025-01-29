@@ -45,7 +45,7 @@ export function SignIn(props) {
                 email: user.email,
                 firstName: "",
                 lastName: "",
-                profilePicture: "",
+                profilePicture: user.profilePicture,
                 id: user.id,
                 username: user.username,
             });

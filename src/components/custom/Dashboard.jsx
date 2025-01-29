@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Button } from "../ui/button";
+import React from "react";
 import API from "../../API.js";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { Sidebar } from "./SideBar";
+import { Card, CardContent } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 

@@ -46,6 +46,7 @@ export function LeaderboardDetails(props) {
     };
 
     //TODO aggiungere limite di persone da poter invitare
+    //TODO aggiungere toast per conferma invio invito
     return (
         <>
             {getLeaderboard.data ? (
