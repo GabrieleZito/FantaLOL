@@ -36,7 +36,7 @@ export function Friends(props) {
         queryKey: ["friends"],
         queryFn: API.getFriends,
     });
-    //console.log(friends.data);
+    if (friends.data) console.log(friends.data);
 
     const submit = (e) => {
         e.preventDefault();
@@ -87,7 +87,6 @@ export function Friends(props) {
                     {friends.isSuccess && friends.data != null && friends.data.length > 0 ? (
                         friends.data.map((x) => (
                             <Card key={x.id} className="mb-2">
-                                {console.log(x)}
                                 <CardContent className="flex items-center p-4 mb-">
                                     <Avatar className="h-12 w-12">
                                         <AvatarImage src={x.profilePicture} alt={x.username} />

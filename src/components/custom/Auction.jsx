@@ -31,7 +31,6 @@ export function Auction(props) {
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState("");
 
-    //TODO togliere info di troppo
     const info = useQuery({
         queryFn: () => API.getInfoLead(leadId),
         queryKey: ["infoLead"],
@@ -67,7 +66,7 @@ export function Auction(props) {
         socket.on("newPlayer", (newPlayer) => {
             console.log(newPlayer);
             if (newPlayer && (player == null || player.id != newPlayer.id)) {
-                //console.log(newPlayer);
+                console.log(newPlayer);
                 queryClient.invalidateQueries({ queryKey: ["infoLead"] });
                 setPlayer(newPlayer.Player);
                 setBids(newPlayer.bids);
@@ -120,7 +119,6 @@ export function Auction(props) {
     };
 
     //TODO separare i casi e fare notifiche sistemate
-    //TODO deve rimanere 1 credito per ogni giocatore mancante
     const sendBid = () => {
         socket.emit("bid", parseInt(leadId), bid, (message) => {
             setShowSuccess(message.success);
@@ -290,15 +288,7 @@ export function Auction(props) {
                         {users.map((u) => (
                             <div key={u.userId}>{u.username}</div>
                         ))}
-                        <Button
-                            onClick={() => {
-                                //socket.emit("show");
-                                team.sort((a, b) => (a.role > b.role ? 1 : b.role > a.role ? -1 : 0));
-                                console.log(team);
-                            }}
-                        >
-                            Show
-                        </Button>
+
                         <Separator className="my-4" />
                         <div className="flex flex-col">
                             <div className="mx-auto text-2xl ">Your Team</div>

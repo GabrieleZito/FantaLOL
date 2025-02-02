@@ -185,6 +185,7 @@ function LeadDialog(props) {
                                 {props.leagues.data ? (
                                     <>
                                         {/* //TODO rendere obbligatorio */}
+                                        {/* console.log(props.leagues.data) */}
                                         <Autocomplete
                                             disablePortal
                                             id="select-league"

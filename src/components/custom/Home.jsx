@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Trophy, Users, Crown, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import background from "@/assets/bg.png";
 //TODO è tutto un placeholder
 
 export function Home(props) {
@@ -47,7 +47,7 @@ export function Home(props) {
         {
             icon: <Trophy className="w-8 h-8 text-yellow-500" />,
             title: "Weekly Rewards",
-            description: "Win prizes based on your team's performance",
+            description: "Win points based on your team's performance",
         },
     ];
 
@@ -55,12 +55,17 @@ export function Home(props) {
         <div className="min-h-screen bg-gray-100">
             <div className="">PLACEHOLDER HOME</div>
             {/* Hero Section */}
-            <div className="bg-gradient-to-br from-blue-900 to-blue-700 text-white">
+            <div
+                className="bg-gradient-to-br from-blue-900 to-blue-700 text-white"
+                style={{
+                    backgroundImage: `url(${background})`,
+                }}
+            >
                 <div className="container mx-auto px-4 py-16">
                     <div className="text-center max-w-3xl mx-auto">
                         <h1 className="text-5xl font-bold mb-6">Fantasy League of Legends</h1>
                         <p className="text-xl mb-8">
-                            Draft your dream team of pro players, compete against other managers, and climb the global rankings!
+                            Draft your dream team of pro players, compete against other managers, and climb the leaderboards!
                         </p>
                         <div className="space-x-4">
                             <Link to="/sign-in">
@@ -68,29 +73,11 @@ export function Home(props) {
                                     Sign Up Free
                                 </button>
                             </Link>
-                            <button className="bg-transparent border-2 border-white hover:bg-white hover:text-blue-900 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
-                                How It Works
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Stats Banner */}
-            <div className="bg-white border-b ">
-                <div className="container mx-auto px-4 py-6 justify-center">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                        <div>
-                            <div className="text-3xl font-bold text-blue-600">500,000+</div>
-                            <div className="text-gray-600">Active Players</div>
-                        </div>
-                        <div>
-                            <div className="text-3xl font-bold text-blue-600">$50,000+</div>
-                            <div className="text-gray-600">Monthly Prizes</div>
-                        </div>
-                        <div>
-                            <div className="text-3xl font-bold text-blue-600">12</div>
-                            <div className="text-gray-600">Pro Leagues</div>
+                            <Link to="/how-to">
+                                <button className="bg-transparent border-2 border-white hover:bg-white hover:text-blue-900 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
+                                    How It Works
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -141,9 +128,6 @@ export function Home(props) {
                                             <div className="font-medium">{league.nextMatch}</div>
                                             <div className="text-sm text-gray-500">{league.startTime}</div>
                                         </div>
-                                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
-                                            Join League
-                                        </button>
                                     </div>
                                 </div>
                             ))}

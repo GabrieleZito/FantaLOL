@@ -24,6 +24,7 @@ const queryClient = new QueryClient();
 import socketIO from "socket.io-client";
 import { Auction } from "./components/custom/Auction";
 import { Team } from "./components/custom/Team";
+import { Howto } from "./components/custom/Howto";
 const socket = socketIO.connect(import.meta.env.VITE_API_URL);
 //const socket = socketIO.connect("https://fantalol-server.onrender.com");
 
@@ -40,6 +41,7 @@ function App() {
                             <Route path="sign-in" element={<SignIn setUser={setUser} />} />
                             <Route path="reset-password" element={<PasswordReset />} />
                             <Route path="login" element={<Login setUser={setUser} />} />
+                            <Route path="how-to" element={<Howto />} />
                             <Route path="*" element={<NotFound />} />
                         </Route>
                         <Route path="/dashboard" element={<Sidebar user={user} setUser={setUser} />}>
