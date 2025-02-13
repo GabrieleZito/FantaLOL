@@ -20,7 +20,7 @@ The client is built using React.
 
  Styling:
  - `tailwind`
- - `shadcn` for pre-built components
+ - `shadcn` and `mui` for pre-built components
 
 ## Deployment
 The client is deployed on Vercel. The deployment is done automatically through Vercel's GitHub integration.

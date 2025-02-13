@@ -118,9 +118,9 @@ export function LeaderboardDetails(props) {
                                             <Button className="mr-1">Team</Button>
                                         </Link>
                                         {getLeaderboard.data.createdBy == props.user.id ? (
-                                            <Button onClick={apriAsta}>Crea Asta</Button>
+                                            <Button onClick={apriAsta}>Create Auction</Button>
                                         ) : (
-                                            <Button onClick={apriAsta}>Apri Asta</Button>
+                                            <Button onClick={apriAsta}>Open Auction</Button>
                                         )}
                                     </div>
                                 </div>

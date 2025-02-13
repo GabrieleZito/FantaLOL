@@ -198,7 +198,7 @@ export function Auction(props) {
                                             ) : (
                                                 ""
                                             )}
-                                            <img className="absolute w-[50px] mt-[461px] ml-[325px]" src={""} />;
+                                            <img className="absolute w-[50px] mt-[461px] ml-[325px]" src={""} />
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-center justify-center w-full space-y-8">
@@ -276,10 +276,10 @@ export function Auction(props) {
                                     {info.data.createdBy == props.user.id ? (
                                         <Button className="absolute" onClick={nextPlayer}>
                                             {" "}
-                                            Inizia Asta
+                                            Start Auction
                                         </Button>
                                     ) : (
-                                        <div className="absolute">L'asta sta per cominciare</div>
+                                        <div className="absolute">The Auction is about to start</div>
                                     )}
                                 </div>
                             </>
@@ -368,7 +368,7 @@ export function Auction(props) {
             <div>
                 {showSuccess ? (
                     <Toast
-                        text="Request Sent"
+                        text="Bid Placed"
                         icon={confirmationGreen}
                         setShowError={setShowError}
                         setShowSuccess={setShowSuccess}

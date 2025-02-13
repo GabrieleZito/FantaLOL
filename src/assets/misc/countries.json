@@ -143,6 +143,9 @@
         "code": "850"
     },
     { "name": "Korea, Republic of", "abbr": "KR", "code": "82" },
+    { "name": "South Korea", "abbr": "KR", "code": "82" },
+    { "name": "North Korea", "abbr": "KP", "code": "850" },
+
     { "name": "Kosovo", "abbr": "XK", "code": "383" },
     { "name": "Kuwait", "abbr": "KW", "code": "965" },
     { "name": "Kyrgyzstan", "abbr": "KG", "code": "996" },

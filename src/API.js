@@ -91,8 +91,16 @@ const getUserTeam = (leadId) => {
     return axiosConf.get(URL + "/leaderboards/" + leadId + "/team").then((res) => res.data);
 };
 
+const getUserTeamPoints = (leadId) => {
+    return axiosConf.get(URL + "/leaderboards/" + leadId + "/teamPoints").then((res) => res.data);
+};
+
 const leagues = () => {
     return axiosConf.get(URL + "/league/currentLeagues").then((res) => res.data);
+};
+
+const saveTeam = (leadId, selectedPlayers) => {
+    return axiosConf.post(URL + "/leaderboards/" + leadId + "/team", selectedPlayers).then((res) => res.data);
 };
 
 const API = {
@@ -117,7 +125,9 @@ const API = {
     getFriendsLeaderboards,
     getInfoLead,
     getUserTeam,
-    leagues
+    leagues,
+    saveTeam,
+    getUserTeamPoints,
 };
 
 export default API;
