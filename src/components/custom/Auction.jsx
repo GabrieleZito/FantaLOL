@@ -254,7 +254,7 @@ export function Auction(props) {
                                         </div>
                                         <Input type="number" onChange={(e) => setBid(e.target.value)} />
                                         <Button type="submit" onClick={sendBid}>
-                                            Punta
+                                            Place Bid
                                         </Button>
                                     </div>
                                 </div>
