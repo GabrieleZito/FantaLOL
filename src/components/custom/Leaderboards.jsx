@@ -24,6 +24,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import API from "@/API";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const diagSchema = z.object({
     name: z.string().min(3, { message: "Name is required" }),
@@ -33,20 +34,21 @@ const diagSchema = z.object({
 
 export function Leaderboards(props) {
     const [priv, setPriv] = useState(false);
+    const user = useSelector((state) => state.user);
 
     const userLead = useQuery({
         queryKey: ["userLead"],
-        queryFn: () => API.getUserLeaderboard(props.user.id),
+        queryFn: () => API.getUserLeaderboard(user.id),
     });
     const friendsLead = useQuery({
         queryKey: ["friendLead"],
-        queryFn: () => API.getFriendsLeaderboards(props.user.id),
+        queryFn: () => API.getFriendsLeaderboards(user.id),
     });
     const leagues = useQuery({
         queryKey: ["leagues"],
         queryFn: API.leagues,
     });
-    
+
     //TODO far vedere le monete disponibili
     //TODO ordinare la tabella in base ai punti
     return (
@@ -55,7 +57,7 @@ export function Leaderboards(props) {
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                     <div className="flex space-x-4 align-middle">
                         <div className="text-2xl font-medium text-slate-500">Your Leaderboards</div>
-                        <LeadDialog priv={priv} setPriv={setPriv} user={props.user} leagues={leagues} />
+                        <LeadDialog priv={priv} setPriv={setPriv} user={user} leagues={leagues} />
                     </div>
                     {userLead.data ? (
                         <Table>

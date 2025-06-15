@@ -28,6 +28,8 @@ import { Howto } from "./components/custom/Howto";
 const socket = socketIO.connect(import.meta.env.VITE_API_URL);
 //const socket = socketIO.connect("https://fantalol-server.onrender.com");
 
+import { useSelector, useDispatch } from "react-redux";
+
 function App() {
     const [user, setUser] = useState(null);
 
@@ -36,24 +38,24 @@ function App() {
             <QueryClientProvider client={queryClient}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<NavBar user={user} setUser={setUser} />}>
-                            <Route index element={<Home user={user} />} />
-                            <Route path="sign-in" element={<SignIn setUser={setUser} />} />
+                        <Route path="/" element={<NavBar />}>
+                            <Route index element={<Home />} />
+                            <Route path="sign-in" element={<SignIn />} />
                             <Route path="reset-password" element={<PasswordReset />} />
-                            <Route path="login" element={<Login setUser={setUser} />} />
+                            <Route path="login" element={<Login />} />
                             <Route path="how-to" element={<Howto />} />
                             <Route path="*" element={<NotFound />} />
                         </Route>
-                        <Route path="/dashboard" element={<Sidebar user={user} setUser={setUser} />}>
-                            <Route index element={<Dashboard user={user} />} />
-                            <Route path="tournaments/:tourId" element={<TournamentDetails user={user} />} />
-                            <Route path="friends" element={<Friends user={user} />} />
+                        <Route path="/dashboard" element={<Sidebar />}>
+                            <Route index element={<Dashboard />} />
+                            <Route path="tournaments/:tourId" element={<TournamentDetails />} />
+                            <Route path="friends" element={<Friends />} />
                             <Route path="inbox" element={<Inbox />} />
-                            <Route path="profile" element={<Profile user={user} />} />
-                            <Route path="leaderboards" element={<Leaderboards user={user} />} />
-                            <Route path="leaderboards/:leadId" element={<LeaderboardDetails user={user} socket={socket} />} />
-                            <Route path="leaderboards/:leadId/auction" element={<Auction user={user} socket={socket} />} />
-                            <Route path="leaderboards/:leadId/team" element={<Team user={user} socket={socket} />} />
+                            <Route path="profile" element={<Profile />} />
+                            <Route path="leaderboards" element={<Leaderboards />} />
+                            <Route path="leaderboards/:leadId" element={<LeaderboardDetails socket={socket} />} />
+                            <Route path="leaderboards/:leadId/auction" element={<Auction socket={socket} />} />
+                            <Route path="leaderboards/:leadId/team" element={<Team />} />
                             <Route path="LEC" element={<LEC />} />
                         </Route>
                     </Routes>

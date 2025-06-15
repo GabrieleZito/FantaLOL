@@ -14,15 +14,20 @@ import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import API from "@/API";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/slices/userSlice";
 
 export function Sidebar(props) {
     const navigate = useNavigate();
+    const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
 
     const logoutRequest = useMutation({
         mutationFn: API.logout,
         mutationKey: ["logout"],
         onSuccess: () => {
-            props.setUser(null);
+            dispatch(setUser({}));
+            
             navigate("/");
         },
         onError: () => {
@@ -42,7 +47,7 @@ export function Sidebar(props) {
     };
 
     //TODO: aggiornare placeholder
-    if (props.user) {
+    if (user.id) {
         return (
             <>
                 <button
@@ -63,10 +68,10 @@ export function Sidebar(props) {
                     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
                         <div className="flex items-center gap-4 p-2">
                             <Link to="/dashboard/profile">
-                                <img className="w-10 h-10 rounded-full" src={props.user.profilePicture} alt="" />
+                                <img className="w-10 h-10 rounded-full" src={user.profilePicture} alt="" />
                             </Link>
                             <div className="font-medium dark:text-white">
-                                <div>{props.user.username}</div>
+                                <div>{user.username}</div>
                                 <div className="text-sm text-gray-500 dark:text-gray-400">placeholder</div>
                             </div>
                         </div>

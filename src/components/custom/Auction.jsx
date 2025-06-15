@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import API from "@/API";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -16,7 +18,8 @@ import { Separator } from "@/components/ui/separator";
 import { confirmationGreen, errorRed, close } from "@/assets/svgConstants";
 
 import countries from "@/assets/misc/countries.json";
-
+import { useSelector } from "react-redux";
+//
 export function Auction(props) {
     const { leadId } = useParams();
     const socket = props.socket;
@@ -30,6 +33,7 @@ export function Auction(props) {
     const [team, setTeam] = useState(null);
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState("");
+    const user = useSelector((state) => state.user);
 
     const info = useQuery({
         queryFn: () => API.getInfoLead(leadId),
@@ -37,13 +41,13 @@ export function Auction(props) {
     });
 
     useEffect(() => {
-        socket.emit("joinAsta", { leadId: parseInt(leadId), userId: props.user.id, username: props.user.username }, (users) => {
+        socket.emit("joinAsta", { leadId: parseInt(leadId), userId: user.id, username: user.username }, (users) => {
             setUsers(users);
             socket.emit("checkAuctions", parseInt(leadId));
         });
 
         return () => {
-            socket.emit("leaveAsta", { leadId: parseInt(leadId), userId: props.user.id });
+            socket.emit("leaveAsta", { leadId: parseInt(leadId), userId: user.id });
         };
     }, []);
 
@@ -91,7 +95,7 @@ export function Auction(props) {
             console.log("timer end");
             console.log(data);
             //TODO forse non c'è bisogno del controllo e lo chiede sempre
-            if (data.winner == props.user.id) {
+            if (data.winner == user.id) {
                 socket.emit("getTeam", parseInt(leadId));
             }
             setPlayer(null);
@@ -273,7 +277,7 @@ export function Auction(props) {
                                         }}
                                     ></div>
 
-                                    {info.data.createdBy == props.user.id ? (
+                                    {info.data.createdBy == user.id ? (
                                         <Button className="absolute" onClick={nextPlayer}>
                                             {" "}
                                             Start Auction

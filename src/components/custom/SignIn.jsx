@@ -7,6 +7,8 @@ import { Label } from "@radix-ui/react-label";
 import API from "../../API.js";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/slices/userSlice.js";
 
 const signUpSchema = z
     .object({
@@ -22,6 +24,7 @@ const signUpSchema = z
 
 export function SignIn(props) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const {
         register,
@@ -39,16 +42,7 @@ export function SignIn(props) {
         mutationKey: ["register"],
         onSuccess: (user) => {
             console.log(user);
-            props.setUser({
-                bio: "",
-                birthDay: "",
-                email: user.email,
-                firstName: "",
-                lastName: "",
-                profilePicture: user.profilePicture,
-                id: user.id,
-                username: user.username,
-            });
+            dispatch(setUser(user));
             navigate("/dashboard");
         },
         onError: (err) => {

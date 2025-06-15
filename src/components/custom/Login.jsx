@@ -8,6 +8,8 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import API from "../../API.js";
 import { useMutation } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/slices/userSlice";
 
 const loginSchema = z.object({
     username: z.string().min(1, { message: "Username is required" }),
@@ -15,8 +17,8 @@ const loginSchema = z.object({
 });
 
 export function Login(props) {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-
     const {
         register,
         handleSubmit,
@@ -30,8 +32,7 @@ export function Login(props) {
         retry: false,
         mutationFn: API.login,
         onSuccess: (user) => {
-            console.log(user);
-            props.setUser(user);
+            dispatch(setUser(user));
             navigate("/dashboard");
         },
         onError: (err) => {

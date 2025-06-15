@@ -7,12 +7,14 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 export function LeaderboardDetails(props) {
     const socket = props.socket;
     const [invFriend, setInvFriend] = useState("");
     const { leadId } = useParams();
     const navigate = useNavigate();
+    const user = useSelector((state) => state.user);
 
     const getLeaderboard = useQuery({
         queryKey: ["leaderboard", leadId],
@@ -114,10 +116,10 @@ export function LeaderboardDetails(props) {
                                         )}
                                     </form>
                                     <div>
-                                        <Link to={"/dashboard/leaderboards/"+leadId+"/team"}>
+                                        <Link to={"/dashboard/leaderboards/" + leadId + "/team"}>
                                             <Button className="mr-1">Team</Button>
                                         </Link>
-                                        {getLeaderboard.data.createdBy == props.user.id ? (
+                                        {getLeaderboard.data.createdBy == user.id ? (
                                             <Button onClick={apriAsta}>Create Auction</Button>
                                         ) : (
                                             <Button onClick={apriAsta}>Open Auction</Button>
