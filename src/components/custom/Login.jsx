@@ -50,7 +50,7 @@ export function Login(props) {
 
     return (
         <>
-            <div className="container flex items-center justify-center h-auto py-28">
+            <div className="container flex items-center justify-center h-auto py-28 ">
                 <div className="w-96">
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2">
                         <div className="grid w-full max-w-sm items-center gap-1.5">
