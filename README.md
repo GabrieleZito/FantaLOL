@@ -1,26 +1,12 @@
-FantaLol React Client
-=====================
-This is the front end client for the FantaLol project. It is a React application that connects to the FantaLol API to provide a user interface for the FantaLol platform.
+# React + Vite
 
-## Getting Started
-To get started with the client, you will need to have the API running. You can find the instructions to run the API in the API repository. Once the API is running, you can start the client by running the following commands:
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-```
-npm install
-npm start
-```
+Currently, two official plugins are available:
 
-This will start the client on `http://localhost:5173`.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Development
-The client is built using React. 
- - `react-router` for routing.
- - `tanstack query` with `axios` for http requests
- - `socket.io` for connecting with the server
+## Expanding the ESLint configuration
 
- Styling:
- - `tailwind`
- - `shadcn` and `mui` for pre-built components
-
-## Deployment
-The client is deployed on Vercel. The deployment is done automatically through Vercel's GitHub integration.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
