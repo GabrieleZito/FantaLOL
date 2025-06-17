@@ -1,8 +1,8 @@
 import { NavLink, Outlet } from "react-router-dom";
-import background from "@/assets/bg.png";
-import logo from "@/assets/FantaLoL-Logo.png";
+import background from "../assets/bg.png";
+import logo from "../assets/FantaLoL-Logo.png";
 
-export function NavBar() {
+export function Navbar() {
     return (
         <>
             <header>
