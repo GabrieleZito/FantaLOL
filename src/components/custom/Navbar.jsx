@@ -9,6 +9,7 @@ export function NavBar(props) {
                     <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                         <img src={logo} className="h-20" alt="Flowbite Logo" />
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">FantaLoL</span>
+                        awdawdad
                     </NavLink>
                     <div className="flex space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
                         <NavLink to="/login">
