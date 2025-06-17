@@ -7,6 +7,11 @@
     src: url("./assets/fonts/League.otf");
 }
 
+@theme {
+    --color-gray-lol: #2e3133;
+    --color-light-blue-lol: #e8e6e3;
+}
+
 @layer base {
     :root {
         --background: 0 0% 100%;

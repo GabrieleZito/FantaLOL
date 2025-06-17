@@ -1,0 +1,6 @@
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-gray-lol: #2e3133;
+    --color-light-blue-lol: #e8e6e3;
+}

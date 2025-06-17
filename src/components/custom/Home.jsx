@@ -35,17 +35,18 @@ export function Home(props) {
 
     const features = [
         {
-            icon: <Users className="w-8 h-8 text-blue-500" />,
+            icon: <Users className="h-8 w-8 text-blue-500" />,
             title: "Create Custom Leagues",
-            description: "Start a private league with friends or join public competitions",
+            description:
+                "Start a private league with friends or join public competitions",
         },
         {
-            icon: <TrendingUp className="w-8 h-8 text-green-500" />,
+            icon: <TrendingUp className="h-8 w-8 text-green-500" />,
             title: "Real-Time Scoring",
             description: "Points update live during professional matches",
         },
         {
-            icon: <Trophy className="w-8 h-8 text-yellow-500" />,
+            icon: <Trophy className="h-8 w-8 text-yellow-500" />,
             title: "Weekly Rewards",
             description: "Win points based on your team's performance",
         },
@@ -53,46 +54,22 @@ export function Home(props) {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <div className="">PLACEHOLDER HOME</div>
-            {/* Hero Section */}
-            <div
-                className="bg-gradient-to-br from-blue-900 to-blue-700 text-white"
-                style={{
-                    backgroundImage: `url(${background})`,
-                }}
-            >
-                <div className="container mx-auto px-4 py-16">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <h1 className="text-5xl font-bold mb-6">Fantasy League of Legends</h1>
-                        <p className="text-xl mb-8">
-                            Draft your dream team of pro players, compete against other managers, and climb the leaderboards!
-                        </p>
-                        <div className="space-x-4">
-                            <Link to="/sign-in">
-                                <button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
-                                    Sign Up Free
-                                </button>
-                            </Link>
-                            <Link to="/how-to">
-                                <button className="bg-transparent border-2 border-white hover:bg-white hover:text-blue-900 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
-                                    How It Works
-                                </button>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             {/* Main Content */}
-            <div className="container flex-col mx-auto px-4 py-12">
+            <div className="container mx-auto flex-col px-4 py-12">
                 {/* Features Section */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-3">
                     {features.map((feature, index) => (
                         <Card key={index} className="text-center">
                             <CardContent className="pt-6">
-                                <div className="flex justify-center mb-4">{feature.icon}</div>
-                                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                                <p className="text-gray-600">{feature.description}</p>
+                                <div className="mb-4 flex justify-center">
+                                    {feature.icon}
+                                </div>
+                                <h3 className="mb-2 text-xl font-semibold">
+                                    {feature.title}
+                                </h3>
+                                <p className="text-gray-600">
+                                    {feature.description}
+                                </p>
                             </CardContent>
                         </Card>
                     ))}
@@ -109,24 +86,45 @@ export function Home(props) {
                     <CardContent className="p-0">
                         <div className="divide-y">
                             {topLeagues.map((league) => (
-                                <div key={league.name} className="p-6 hover:bg-gray-50 transition-colors">
+                                <div
+                                    key={league.name}
+                                    className="p-6 transition-colors hover:bg-gray-50"
+                                >
                                     <div className="flex flex-wrap items-center justify-between gap-6">
-                                        <div className="flex-1 min-w-[200px]">
-                                            <h3 className="text-2xl font-bold mb-1">{league.name}</h3>
-                                            <p className="text-gray-600">{league.region}</p>
+                                        <div className="min-w-[200px] flex-1">
+                                            <h3 className="mb-1 text-2xl font-bold">
+                                                {league.name}
+                                            </h3>
+                                            <p className="text-gray-600">
+                                                {league.region}
+                                            </p>
                                         </div>
-                                        <div className="flex-1 min-w-[200px]">
-                                            <div className="text-sm text-gray-500 mb-1">Active Players</div>
-                                            <div className="font-bold text-lg">{league.players.toLocaleString()}</div>
+                                        <div className="min-w-[200px] flex-1">
+                                            <div className="mb-1 text-sm text-gray-500">
+                                                Active Players
+                                            </div>
+                                            <div className="text-lg font-bold">
+                                                {league.players.toLocaleString()}
+                                            </div>
                                         </div>
-                                        <div className="flex-1 min-w-[200px]">
-                                            <div className="text-sm text-gray-500 mb-1">Prize Pool</div>
-                                            <div className="font-bold text-lg text-blue-600">{league.prize}</div>
+                                        <div className="min-w-[200px] flex-1">
+                                            <div className="mb-1 text-sm text-gray-500">
+                                                Prize Pool
+                                            </div>
+                                            <div className="text-lg font-bold text-blue-600">
+                                                {league.prize}
+                                            </div>
                                         </div>
-                                        <div className="flex-1 min-w-[200px]">
-                                            <div className="text-sm text-gray-500 mb-1">Next Match</div>
-                                            <div className="font-medium">{league.nextMatch}</div>
-                                            <div className="text-sm text-gray-500">{league.startTime}</div>
+                                        <div className="min-w-[200px] flex-1">
+                                            <div className="mb-1 text-sm text-gray-500">
+                                                Next Match
+                                            </div>
+                                            <div className="font-medium">
+                                                {league.nextMatch}
+                                            </div>
+                                            <div className="text-sm text-gray-500">
+                                                {league.startTime}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -136,12 +134,15 @@ export function Home(props) {
                 </Card>
 
                 {/* CTA Section */}
-                <div className="text-center bg-blue-50 rounded-xl p-12">
-                    <h2 className="text-3xl font-bold mb-4">Ready to Build Your Dream Team?</h2>
-                    <p className="text-xl text-gray-600 mb-8">
-                        Join thousands of managers competing in Fantasy League of Legends
+                <div className="rounded-xl bg-blue-50 p-12 text-center">
+                    <h2 className="mb-4 text-3xl font-bold">
+                        Ready to Build Your Dream Team?
+                    </h2>
+                    <p className="mb-8 text-xl text-gray-600">
+                        Join thousands of managers competing in Fantasy League
+                        of Legends
                     </p>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
+                    <button className="rounded-lg bg-blue-600 px-8 py-4 font-semibold text-white transition-colors hover:bg-blue-700">
                         Get Started Now
                     </button>
                 </div>
