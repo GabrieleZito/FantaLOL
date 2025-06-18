@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "../components/ui/card";
 import { Trophy, Users, Crown, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
 

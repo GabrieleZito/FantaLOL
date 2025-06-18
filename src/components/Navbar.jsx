@@ -17,15 +17,15 @@ export function Navbar() {
                             <img src={logo} className="w-20" />
                         </NavLink>
                     </div>
-                    <div>
+                    <div className="items-center justify-center">
                         <NavLink to="/how-to">
                             <div className="font-league rounded-sm border-2 border-[#38c4d7] bg-[#21262d] px-3 py-2 text-white">How It Works</div>
                         </NavLink>
                     </div>
 
-                    <div className="flex flex-row gap-2">
+                    <div className="flex flex-row items-center gap-2">
                         <NavLink to="/login">
-                            <div className="font-league cursor-pointer rounded-sm border-2 border-[#38c4d7] bg-[#21262d] px-3 py-2 text-white">
+                            <div className="font-league cursor-pointer items-center rounded-sm border-2 border-[#38c4d7] bg-[#21262d] px-3 py-2 text-white">
                                 Log In
                             </div>
                         </NavLink>
