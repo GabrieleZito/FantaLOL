@@ -6,7 +6,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import API from "../../API.js";
+import API from "@/API";
 import { useMutation } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/slices/userSlice";
