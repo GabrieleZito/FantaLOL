@@ -14,6 +14,8 @@ const userSlice = createSlice({
     },
     reducers: {
         setUser: (state, action) => {
+            console.log(action.payload);
+
             state.id = action.payload.id;
             state.bio = action.payload.bio;
             state.birthDay = action.payload.birthDay;

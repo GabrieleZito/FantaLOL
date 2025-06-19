@@ -71,13 +71,13 @@ export function Team() {
     return (
         <>
             <div className="p-4 sm:ml-64">
-                <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+                <div className="rounded-lg border-2 border-dashed border-gray-200 p-4 dark:border-gray-700">
                     {teamQuery.isSuccess && teamQuery.data ? (
                         <>
                             <div className="flex flex-col">
-                                <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-3">
-                                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                        <caption className="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                                <div className="relative mb-3 overflow-x-auto shadow-md sm:rounded-lg">
+                                    <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+                                        <caption className="bg-white p-5 text-left text-lg font-semibold text-gray-900 rtl:text-right dark:bg-gray-800 dark:text-white">
                                             <div>
                                                 Your Team
                                                 <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
@@ -85,7 +85,7 @@ export function Team() {
                                                 </p>
                                             </div>
                                         </caption>
-                                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <thead className="bg-gray-50 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
                                                 <th scope="col" className="px-6 py-3">
                                                     Top
@@ -105,7 +105,7 @@ export function Team() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                            <tr className="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
                                                 {roles.map((role) => {
                                                     const player = team?.[role]?.[0];
                                                     const isEmpty = !player;
@@ -114,11 +114,9 @@ export function Team() {
                                                             <button
                                                                 onClick={() => handleSelect(role, player?.id)}
                                                                 disabled={isEmpty}
-                                                                className={`w-full px-4 py-2 rounded ${
-                                                                    selectedPlayers[role] === player?.id
-                                                                        ? "bg-blue-500 text-white"
-                                                                        : ""
-                                                                } ${isEmpty ? "opacity-50 cursor-not-allowed" : ""}`}
+                                                                className={`w-full rounded px-4 py-2 ${
+                                                                    selectedPlayers[role] === player?.id ? "bg-blue-500 text-white" : ""
+                                                                } ${isEmpty ? "cursor-not-allowed opacity-50" : ""}`}
                                                             >
                                                                 {player?.name ?? "Empty"}
                                                             </button>
@@ -126,7 +124,7 @@ export function Team() {
                                                     );
                                                 })}
                                             </tr>
-                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                            <tr className="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
                                                 {roles.map((role) => {
                                                     const player = team?.[role]?.[1];
                                                     const isEmpty = !player;
@@ -135,11 +133,9 @@ export function Team() {
                                                             <button
                                                                 onClick={() => handleSelect(role, player?.id)}
                                                                 disabled={isEmpty}
-                                                                className={`w-full px-4 py-2 rounded ${
-                                                                    selectedPlayers[role] === player?.id
-                                                                        ? "bg-blue-500 text-white"
-                                                                        : ""
-                                                                } ${isEmpty ? "opacity-50 cursor-not-allowed" : ""}`}
+                                                                className={`w-full rounded px-4 py-2 ${
+                                                                    selectedPlayers[role] === player?.id ? "bg-blue-500 text-white" : ""
+                                                                } ${isEmpty ? "cursor-not-allowed opacity-50" : ""}`}
                                                             >
                                                                 {player?.name ?? "Empty"}
                                                             </button>
@@ -163,10 +159,10 @@ export function Team() {
                         <p className="flex justify-center text-2xl font-medium text-slate-500">Recent Activities</p>
                         <div>
                             {teamPoints.data ? (
-                                <div className="grid grid-cols-3 auto-cols-min">
+                                <div className="grid auto-cols-min grid-cols-3">
                                     {teamPoints.data.Points.map((p) => (
                                         <>
-                                            <div className="text-sky-700 font-medium">{p.Player.name}</div>
+                                            <div className="font-medium text-sky-700">{p.Player.name}</div>
                                             <div className="">{"+" + p.points}</div>
                                             <div className="">{p.description}</div>
                                         </>

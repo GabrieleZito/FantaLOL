@@ -103,6 +103,10 @@ const saveTeam = (leadId, selectedPlayers) => {
     return axiosConf.post(URL + "/leaderboards/" + leadId + "/team", selectedPlayers).then((res) => res.data);
 };
 
+const editProfile = (profile) => {
+    return axiosConf.post(URL + "/users/editProfile", profile).then((res) => res.data);
+};
+
 const API = {
     register,
     login,
@@ -128,6 +132,7 @@ const API = {
     leagues,
     saveTeam,
     getUserTeamPoints,
+    editProfile,
 };
 
 export default API;

@@ -2,96 +2,141 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Mail, MapPin, Link as LinkIcon, Github, Twitter, Briefcase, GraduationCap, Calendar } from "lucide-react";
-import { useSelector } from "react-redux";
+import { Mail, MapPin, Link as LinkIcon, Calendar } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import gold from "@/assets/icons/gold.png";
+import silver from "@/assets/icons/silver.png";
+import bronze from "@/assets/icons/bronze.png";
+import { Input, TextareaAutosize } from "@mui/material";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import API from "@/API";
+import { setUser } from "@/slices/userSlice";
 
 export function Profile(props) {
     const user = useSelector((state) => state.user);
+    const [isEditOn, setIsEditOn] = useState(false);
+    const [first, setFirst] = useState(user.firstName);
+    const [last, setLast] = useState(user.lastName);
+    const [bio, setBio] = useState(user.bio);
+    const dispatch = useDispatch();
+
+    const reset = () => {
+        setFirst(user.firstName);
+        setLast(user.lastName);
+        setBio(user.bio);
+    };
+
+    const saveProfile = useMutation({
+        mutationFn: () => API.editProfile({ firstName: first, lastName: last, bio: bio }),
+        mutationKey: ["saveProfile"],
+        onSuccess: (data) => {
+            setIsEditOn(false);
+            dispatch(setUser(data));
+            console.log("save profile success");
+            console.log(data);
+        },
+        onError: (data) => {
+            reset();
+            setIsEditOn(false);
+            console.log("save profile error");
+            console.log(data);
+        },
+    });
+
+    const save = (e) => {
+        e.preventDefault();
+        console.log("submit done");
+
+        saveProfile.mutate();
+    };
 
     return (
         <div className="p-4 sm:ml-64">
-            <Card className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
-                <CardHeader className="flex flex-col items-center gap-4 pb-8 border-b sm:flex-row">
-                    <Avatar className="w-32 h-32">
+            <Card className="rounded-lg border-2 border-dashed border-gray-200 p-4 dark:border-gray-700">
+                <CardHeader className="flex flex-col items-center gap-4 border-b pb-8 sm:flex-row">
+                    <Avatar className="h-32 w-32">
                         <AvatarImage src={user.profilePicture} alt="profile picture" />
                         <AvatarFallback>{user.username}</AvatarFallback>
                     </Avatar>
                     <div className="space-y-2 text-center sm:text-left">
                         <CardTitle className="text-3xl">{user.firstName + " " + user.lastName}</CardTitle>
-                        <CardDescription className="text-xl">Senior Software Developer</CardDescription>
+                        <CardDescription className="text-xl">@{user.username}</CardDescription>
                         <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
-                            <Badge>React</Badge>
-                            <Badge>Node.js</Badge>
-                            <Badge>TypeScript</Badge>
-                            <Badge>GraphQL</Badge>
-                            <Badge>AWS</Badge>
+                            <Badge variant="secondary">
+                                <img src={gold} className="w-5" />0{" "}
+                            </Badge>
+                            <Badge variant="secondary">
+                                <img src={silver} className="w-5" />0{" "}
+                            </Badge>
+                            <Badge variant="secondary">
+                                <img src={bronze} className="w-5" />0{" "}
+                            </Badge>
                         </div>
                     </div>
                 </CardHeader>
                 <CardContent className="mt-6 space-y-8">
                     <section className="space-y-4">
                         <h2 className="text-2xl font-semibold">About Me</h2>
-                        <p className="text-gray-600">{user.bio}</p>
+                        <form onSubmit={save}>
+                            <div className="grid grid-cols-5 grid-rows-3 gap-1">
+                                <div className="max-w-fit">
+                                    <Label htmlFor="firstName">First Name:</Label>
+                                </div>
+                                <div className="max-w-fit">
+                                    <Label htmlFor="lastName">Last Name:</Label>
+                                </div>
+                                <div className="row-start-2">
+                                    <Input type="text" id="email" disabled={!isEditOn} value={first} onChange={(e) => setFirst(e.target.value)} />
+                                </div>
+                                <div className="row-start-2">
+                                    <Input type="text" id="lastName" disabled={!isEditOn} value={last} onChange={(e) => setLast(e.target.value)} />
+                                </div>
+                                <div className="col-start-1 row-start-3">
+                                    <Label htmlFor="bio">Bio:</Label>
+                                </div>
+                            </div>
+                            <TextareaAutosize
+                                type="text"
+                                minRows={5}
+                                className="w-full rounded-sm border-2 border-gray-200 bg-white p-3 text-base shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                disabled={!isEditOn}
+                                value={bio}
+                                onChange={(e) => setBio(e.target.value)}
+                            />
+                            <div className="mt-2 flex justify-end">
+                                {isEditOn ? (
+                                    <>
+                                        <div className="flex flex-row gap-2">
+                                            <Button type="submit">Save</Button>
+                                            <Button
+                                                onClick={() => {
+                                                    setIsEditOn((x) => !x);
+                                                    reset();
+                                                }}
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <Button onClick={() => setIsEditOn((x) => !x)}>Edit Profile</Button>
+                                )}
+                            </div>
+                        </form>
                     </section>
 
                     <section className="space-y-4">
                         <h2 className="text-2xl font-semibold">Contact Information</h2>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div className="flex items-center space-x-2">
-                                <Mail className="w-5 h-5 text-gray-400" />
+                                <Mail className="h-5 w-5 text-gray-400" />
                                 <span>{user.email}</span>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <MapPin className="w-5 h-5 text-gray-400" />
+                                <MapPin className="h-5 w-5 text-gray-400" />
                                 <span>San Francisco, CA</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <LinkIcon className="w-5 h-5 text-gray-400" />
-                                <a href="https://janedoe.com" className="text-blue-600 hover:underline">
-                                    janedoe.com
-                                </a>
-                            </div>
-
-                            <div className="flex items-center space-x-2">
-                                <Twitter className="w-5 h-5 text-gray-400" />
-                                <a href="https://twitter.com/janedoe" className="text-blue-600 hover:underline">
-                                    @janedoe
-                                </a>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="space-y-4">
-                        <h2 className="text-2xl font-semibold">Work Experience</h2>
-                        <div className="space-y-4">
-                            <div className="flex items-start space-x-3">
-                                <Briefcase className="w-5 h-5 mt-1 text-gray-400" />
-                                <div>
-                                    <h3 className="font-semibold">Senior Software Developer at Tech Innovators Inc.</h3>
-                                    <p className="text-gray-600">2018 - Present</p>
-                                    <p className="mt-2">
-                                        Leading development of cloud-native applications and mentoring junior developers.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-start space-x-3">
-                                <Briefcase className="w-5 h-5 mt-1 text-gray-400" />
-                                <div>
-                                    <h3 className="font-semibold">Software Developer at WebSolutions Co.</h3>
-                                    <p className="text-gray-600">2015 - 2018</p>
-                                    <p className="mt-2">Developed and maintained various client websites and web applications.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="space-y-4">
-                        <h2 className="text-2xl font-semibold">Education</h2>
-                        <div className="flex items-start space-x-3">
-                            <GraduationCap className="w-5 h-5 mt-1 text-gray-400" />
-                            <div>
-                                <h3 className="font-semibold">BS in Computer Science</h3>
-                                <p className="text-gray-600">University of Technology, 2011 - 2015</p>
                             </div>
                         </div>
                     </section>
@@ -100,21 +145,15 @@ export function Profile(props) {
                         <h2 className="text-2xl font-semibold">Recent Activity</h2>
                         <div className="space-y-3">
                             <div className="flex items-center space-x-2">
-                                <Calendar className="w-5 h-5 text-gray-400" />
-                                <span className="text-gray-600">
-                                    Contributed to open-source project "WebFramework" - 2 days ago
-                                </span>
+                                <Calendar className="h-5 w-5 text-gray-400" />
+                                <span className="text-gray-600">...</span>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <Calendar className="w-5 h-5 text-gray-400" />
-                                <span className="text-gray-600">Published article "Future of Web Development" - 1 week ago</span>
+                                <Calendar className="h-5 w-5 text-gray-400" />
+                                <span className="text-gray-600">...</span>
                             </div>
                         </div>
                     </section>
-
-                    <div className="flex justify-end">
-                        <Button>Edit Profile</Button>
-                    </div>
                 </CardContent>
             </Card>
         </div>

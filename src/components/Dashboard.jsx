@@ -1,5 +1,5 @@
 import React from "react";
-import API from "../../API.js";
+import API from "../API.js";
 import { Card, CardContent } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -32,7 +32,7 @@ export function Dashboard(props) {
                                             {Object.entries(currentT.data).map(([key, value]) => {
                                                 return (
                                                     <>
-                                                        <AccordionItem value={key} key={key} className="">
+                                                        <AccordionItem value={key} key={key} className="px-3 items-center">
                                                             <AccordionTrigger>
                                                                 <div className="p-3 hover:bg-gray-50 transition-colors">
                                                                     <div className="flex flex-wrap items-center justify-between gap-6">

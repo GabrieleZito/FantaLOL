@@ -18,7 +18,7 @@ export function Navbar() {
                         </NavLink>
                     </div>
                     <div className="items-center justify-center">
-                        <NavLink to="/how-to">
+                        <NavLink to="/howto">
                             <div className="font-league rounded-sm border-2 border-[#38c4d7] bg-[#21262d] px-3 py-2 text-white">How It Works</div>
                         </NavLink>
                     </div>
@@ -29,7 +29,7 @@ export function Navbar() {
                                 Log In
                             </div>
                         </NavLink>
-                        <NavLink to="/sign-in">
+                        <NavLink to="/signin">
                             <div className="font-league cursor-pointer rounded-sm border-2 border-[#38c4d7] bg-[#21262d] px-3 py-2 text-white">
                                 Sign Up
                             </div>

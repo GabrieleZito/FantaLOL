@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "../components/ui/card";
 import { Trophy, Users, Crown, TrendingUp } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export function Home(props) {
     const topLeagues = [
@@ -107,9 +107,11 @@ export function Home(props) {
                 <div className="rounded-xl bg-blue-50 p-12 text-center">
                     <h2 className="mb-4 text-3xl font-bold">Ready to Build Your Dream Team?</h2>
                     <p className="mb-8 text-xl text-gray-600">Join thousands of managers competing in Fantasy League of Legends</p>
-                    <button className="rounded-lg bg-blue-600 px-8 py-4 font-semibold text-white transition-colors hover:bg-blue-700">
-                        Get Started Now
-                    </button>
+                    <NavLink to="/signin">
+                        <button className="rounded-lg bg-blue-600 px-8 py-4 font-semibold text-white transition-colors hover:bg-blue-700">
+                            Get Started Now
+                        </button>
+                    </NavLink>
                 </div>
             </div>
         </div>

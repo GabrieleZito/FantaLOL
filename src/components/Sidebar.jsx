@@ -1,6 +1,6 @@
-import { dashboard, inbox, kanban, products, signIn, signUp, users, hamburgerMenu, leaderboard, teams } from "@/assets/svgConstants";
+import { dashboard, inbox, kanban, products, signIn, signUp, users, hamburgerMenu, leaderboard, teams } from "@/assets/icons/svgConstants";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import API from "@/API";
 import { useDispatch, useSelector } from "react-redux";
